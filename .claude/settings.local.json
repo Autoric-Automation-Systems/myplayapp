@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const m = require\\('c:/Users/ruyju/Documents/dev/myplayapp/node_modules/next-auth'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(node -e \"const pkg = require\\('c:/Users/ruyju/Documents/dev/myplayapp/node_modules/next-auth/package.json'\\); console.log\\(pkg.version\\)\")",
+      "Bash(node -e \"const m = require\\('c:/Users/ruyju/Documents/dev/myplayapp/node_modules/next-auth'\\); console.log\\(JSON.stringify\\(m, null, 2\\)\\)\")",
+      "Bash(npm show *)",
+      "Bash(npm install *)",
+      "Bash(node -e \"console.log\\(require\\('c:/Users/ruyju/Documents/dev/myplayapp/node_modules/next-auth/package.json'\\).version\\)\")"
+    ]
+  }
+}
