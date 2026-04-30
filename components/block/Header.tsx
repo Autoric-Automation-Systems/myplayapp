@@ -12,21 +12,21 @@ export default function Header({ block }: { block: Block }) {
 
     return (
         <div className="flex items-center justify-between mb-4 sm:mb-8">
-            <div className="hidden sm:flex flex items-start gap-2">
-                <RectangleGroupIcon className="w-8 h-8 text-orange-400" />
+            <div className="flex items-start gap-2 min-w-0 flex-1">
+                <RectangleGroupIcon className="w-8 h-8 text-orange-400 shrink-0 hidden sm:block" />
                 <h1 className="text-sm sm:text-xl font-bold text-orange-400 truncate">
                     {block.title}
                 </h1>
             </div>
             {/* Desktop buttons */}
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="hidden sm:flex items-center gap-1 shrink-0">
                 <EditBlock block={block} />
                 <AddTrack block_id={block.id} />
                 <DeleteBlock block={block} />
             </div>
 
             {/* Mobile menu button */}
-            <div className="sm:hidden relative">
+            <div className="sm:hidden relative shrink-0">
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
                     className="bg-white/10 hover:bg-white/20 text-white p-1.5 rounded-lg text-sm"
@@ -36,7 +36,8 @@ export default function Header({ block }: { block: Block }) {
                 {menuOpen && (
                     <>
                         <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
-                        <div className="absolute right-0 mt-1 w-40 bg-[#2b1205] rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden">
+
+                        <div className="absolute right-0 mt-1 w-48 bg-[#2b1205] rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden">
                             <EditBlock block={block} />
                             <AddTrack block_id={block.id} />
                             <DeleteBlock block={block} />
@@ -47,4 +48,3 @@ export default function Header({ block }: { block: Block }) {
         </div>
     );
 }
-
