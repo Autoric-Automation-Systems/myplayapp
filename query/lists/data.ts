@@ -46,3 +46,23 @@ export async function checkIsPublic(id: string) {
     throw new Error('Failed to fetch list.');
   }
 }
+
+export async function fetchListIdByTrack({ block_id }: { block_id: string }) {
+  //console.log("block_id", block_id);
+  try {
+    const data = await sql`
+      SELECT l.id
+      FROM public.lists l
+      JOIN public.blocks b 
+      ON l.id = b.list_id
+      WHERE b.id = ${block_id}
+    `;
+    const listId = data[0].id as string;
+    //console.log("listId", listId);
+    return listId;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch list.');
+  }
+
+}

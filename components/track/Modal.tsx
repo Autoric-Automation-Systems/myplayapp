@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Music } from "../../types";
+import type { Track } from "@/query/tracks/definitions";
 
 const NOTAS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
     "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm",
@@ -16,18 +16,19 @@ const ESTILOS = ["Rock", "Pop", "Jazz", "Blues", "Funk",
     "Trap", "Hip Hop", "Rap", "R&B", "Soul"
 ];
 
-export default function MusicModal({
+export default function Modal({
     initial,
     onSave,
     onClose,
 }: {
-    initial?: Music;
-    onSave: (m: Music) => void;
+    initial?: Track;
+    onSave: (m: Track) => void;
     onClose: () => void;
 }) {
-    const [m, setM] = useState<Music>(
+    const [m, setM] = useState<Track>(
         initial || {
-            id: crypto.randomUUID(),
+            id: "",
+            block_id: "",
             title: "",
             key: "",
             bpm: 100,

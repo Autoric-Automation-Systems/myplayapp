@@ -1,6 +1,7 @@
 import { fetchDataList } from "@/query/lists/data";
 import Header from "@/components/list/Header";
 import MsgPage from "@/components/layout/msgPage";
+import Blocks from "@/components/block/Blocks";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
@@ -11,8 +12,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <div className="p-3 sm:p-6">
             <MsgPage />
             <Header list={list} />
-            <h1>View</h1>
-            <span>{list.title}</span>
+            <Blocks id={id} />
         </div>
     );
 }

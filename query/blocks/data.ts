@@ -17,6 +17,21 @@ export async function fetchDataBlocks(list_id: string) {
   }
 }
 
+export async function fetchDataBlock(id: string) {
+  try {
+    const data = await sql`
+      SELECT *
+      FROM public.blocks
+      WHERE blocks.id = ${id}
+    `;
+    const block = data[0];
+    return block as Block;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch block.');
+  }
+}
+
 export async function fetchDataBlockCount(list_id: string) {
   try {
     const data = await sql`

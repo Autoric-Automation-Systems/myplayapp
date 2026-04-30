@@ -1,32 +1,26 @@
 'use client';
-import type { List } from "@/query/lists/definitions";
-import { EditList, ShareList, DeleteList } from "./Buttons";
-import AddBlock from "../block/Buttons";
+import type { Block } from "@/query/blocks/definitions";
+import { EditBlock, DeleteBlock } from "./Buttons";
+import AddTrack from "../track/Buttons";
 import { useState } from "react";
 
-export default function Header({ list }: { list: List }) {
+export default function Header({ block }: { block: Block }) {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    if (!list) return null;
+    if (!block) return null;
 
     return (
         <div className="flex items-center justify-between mb-4 sm:mb-8">
-            <div className="hidden sm:flex">
+            <div className="hidden sm:flex flex-col">
                 <h1 className="text-sm sm:text-xl font-bold text-orange-400 truncate">
-                    🎶{list.title}
+                    🎶{block.title}
                 </h1>
-                {list.is_public ? (
-                    <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2">Repertório Publico</p>
-                ) : (
-                    <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2">Repertório Privado</p>
-                )}
             </div>
             {/* Desktop buttons */}
             <div className="hidden sm:flex items-center gap-1">
-                <ShareList list={list} />
-                <EditList list={list} />
-                <AddBlock list_id={list.id} />
-                <DeleteList list={list} />
+                <EditBlock block={block} />
+                <AddTrack block_id={block.id} />
+                <DeleteBlock block={block} />
             </div>
 
             {/* Mobile menu button */}
@@ -41,10 +35,9 @@ export default function Header({ list }: { list: List }) {
                     <>
                         <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
                         <div className="absolute right-0 mt-1 w-40 bg-[#2b1205] rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden">
-                            <EditList list={list} />
-                            <DeleteList list={list} />
-                            <ShareList list={list} />
-                            <AddBlock list_id={list.id} />
+                            <EditBlock block={block} />
+                            <AddTrack block_id={block.id} />
+                            <DeleteBlock block={block} />
                         </div>
                     </>
                 )}
@@ -52,3 +45,4 @@ export default function Header({ list }: { list: List }) {
         </div>
     );
 }
+

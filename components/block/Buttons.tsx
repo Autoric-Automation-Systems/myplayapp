@@ -1,10 +1,10 @@
 'use client';
-import { PlusIcon, PencilIcon, ShareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/react";
 import Modal from "./Modal";
 import { useState } from "react";
 import type { Block } from "@/query/blocks/definitions";
-import { addBlock } from "@/query/blocks/actions";
+import { addBlock, editBlock, deleteBlock } from "@/query/blocks/actions";
 
 export default function AddBlock({ list_id }: { list_id: string }) {
     const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function AddBlock({ list_id }: { list_id: string }) {
 export function EditBlock({ block }: { block: Block }) {
     const [open, setOpen] = useState(false);
     function handleSave(block: Block) {
-        console.log(block);
+        editBlock(block);
         setOpen(false);
     }
     return (
@@ -42,18 +42,18 @@ export function EditBlock({ block }: { block: Block }) {
             </Button>
 
             {open &&
-                <Modal onClose={() => setOpen(false)} onSave={(block) => handleSave(block)} />
+                <Modal onClose={() => setOpen(false)} onSave={(block) => handleSave(block)} initial={block} />
             }
         </>
     );
 }
 
 
-export function DeleteBlock(block: Block) {
+export function DeleteBlock({ block }: { block: Block }) {
     function handleDelete() {
-        if (confirm("Remover este repertório?")) {
+        if (confirm("Remover este bloco?")) {
             if (!block) return;
-            //deleteRepertoire(block.id);
+            deleteBlock(block.id);
         }
     }
     return (

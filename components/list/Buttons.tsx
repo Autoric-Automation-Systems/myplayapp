@@ -6,7 +6,6 @@ import { useState } from "react";
 import type { List } from "@/query/lists/definitions";
 import { addList, editList } from "@/query/lists/actions";
 import { deleteList } from "@/query/lists/actions";
-import { title } from "process";
 
 export default function AddList() {
     const [open, setOpen] = useState(false);

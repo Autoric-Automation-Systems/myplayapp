@@ -120,7 +120,7 @@ export async function addList(list: List) {
   }
   revalidatePath('/dashboard');
   redirect(
-    '/dashboard?title=Sucesso&message=A criação foi um sucesso!&type=success'
+    '/dashboard?title=Sucesso&message=A criação foi realizada com sucesso!&type=success'
   );
 }
 
@@ -137,6 +137,6 @@ export async function editList(list: List) {
   }
   revalidatePath(`/list/[${list.id}]`);
   redirect(
-    `/list/${list.id}?title=Sucesso&message=A edição foi um sucesso!&type=success`
+    `/list/${list.id}?title=Sucesso&message=A edição foi realizada com sucesso!&type=success`
   );
 }

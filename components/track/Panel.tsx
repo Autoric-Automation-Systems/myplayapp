@@ -1,54 +1,48 @@
+'use client';
 import { useState } from "react";
-import type { Music } from "../../types";
+import { usePanel } from "@/context/PanelContext";
 
-interface MusicPanelProps {
-    music: Music | null;
-    onClose?: () => void;
-}
-
-export default function MusicPanel({ music, onClose }: MusicPanelProps) {
+export default function Panel() {
+    const { track, closePanel } = usePanel();
     const [font, setFont] = useState(16);
 
-    if (!music) {
+    if (!track) {
         return (
-            <div className="h-full bg-[#3a1707] p-6 flex flex-col items-center justify-center text-white/40">
+            <div className="h-full bg-[#3a1707] p-6 flex flex-col items-center justify-center text-white/40 rounded-xl">
                 <span className="text-5xl mb-4">🎵</span>
                 <p className="text-lg font-medium">Selecione uma música</p>
-                <p className="text-sm mt-2">Clique no 👁️ para ver os detalhes</p>
+                <p className="text-sm mt-2">Clique para ver os detalhes</p>
             </div>
         );
     }
 
     return (
-        <div className="h-full bg-[#3a1707] p-6 overflow-auto">
+        <div className="h-full bg-[#3a1707] p-6 overflow-auto rounded-xl">
             {/* Cabeçalho */}
             <div className="flex items-start justify-between mb-6 pb-4 border-b border-orange-900/30">
                 <div>
-                    <h2 className="text-2xl font-bold text-orange-400 leading-tight">{music.title}</h2>
-                    {music.artist && (
-                        <p className="text-sm text-white/50 mt-1">{music.artist}</p>
+                    <h2 className="text-2xl font-bold text-orange-400 leading-tight">{track.title}</h2>
+                    {track.artist && (
+                        <p className="text-sm text-white/50 mt-1">{track.artist}</p>
                     )}
                 </div>
-                {onClose && (
-                    <button
-                        onClick={onClose}
-                        className="p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition"
-                    >
-                        ✕
-                    </button>
-                )}
+                <button
+                    onClick={closePanel}
+                    className="p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition"
+                >
+                    ✕
+                </button>
             </div>
-
             {/* Tags */}
             <div className="flex gap-2 mb-6 flex-wrap">
                 <span className="bg-orange-800/50 text-orange-300 px-3 py-1 rounded-lg text-sm font-medium">
-                    {music.key}
+                    {track.key}
                 </span>
                 <span className="bg-cyan-800/50 text-cyan-300 px-3 py-1 rounded-lg text-sm font-mono font-medium">
-                    {music.bpm} BPM
+                    {track.bpm} BPM
                 </span>
                 <span className="bg-purple-800/50 text-purple-300 px-3 py-1 rounded-lg text-sm font-medium">
-                    {music.style}
+                    {track.style}
                 </span>
             </div>
 
@@ -76,12 +70,12 @@ export default function MusicPanel({ music, onClose }: MusicPanelProps) {
 
             {/* Letra */}
             <div className="bg-black/30 rounded-xl p-6 border border-white/5">
-                {music.lyrics ? (
+                {track.lyrics ? (
                     <pre
                         className="whitespace-pre-wrap font-sans text-white/90 leading-relaxed"
                         style={{ fontSize: `${font}px` }}
                     >
-                        {music.lyrics}
+                        {track.lyrics}
                     </pre>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-white/30">

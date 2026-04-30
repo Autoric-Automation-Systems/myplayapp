@@ -4,6 +4,7 @@ import { sql } from '@/lib/db';
 import { Block } from './definitions';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { fetchDataBlock } from './data';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -99,10 +100,11 @@ export async function updateData(
 }
 
 export async function deleteBlock(id: string) {
+  const block = await fetchDataBlock(id);
   await sql`DELETE FROM public.blocks WHERE id = ${id}`;
-  revalidatePath('/dashboard');
+  revalidatePath(`/list/[${block.list_id}]`);
   redirect(
-    '/dashboard?title=Sucesso&message=O Bloco foi deletado com sucesso!&type=success'
+    `/list/${block.list_id}?title=Sucesso&message=A exclusão foi realizada com sucesso!&type=success`
   );
 
 }
@@ -118,9 +120,28 @@ export async function addBlock(block: Block) {
     console.error('Database Error:', error);
     return { message: 'Database Error: Failed to Create.' };
   }
-  revalidatePath('/dashboard');
+  revalidatePath(`/list/[${block.list_id}]`);
   redirect(
-    `/list/${block.list_id}?title=Sucesso&message=O bloco foi adicionado com sucesso!&type=success`
+    `/list/${block.list_id}?title=Sucesso&message=A edição foi realizada com sucesso!&type=success`
   );
 
+}
+
+
+export async function editBlock(block: Block) {
+  //console.log(block);
+  try {
+    await sql`
+        UPDATE public.blocks
+        SET (title, position) = (${block.title}, ${block.position})
+        WHERE id = ${block.id}
+      `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    return { message: 'Database Error: Failed to Edit.' };
+  }
+  revalidatePath(`/list/[${block.list_id}]`);
+  redirect(
+    `/list/${block.list_id}?title=Sucesso&message=A edição foi realizada com sucesso!&type=success`
+  );
 }
