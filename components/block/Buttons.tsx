@@ -36,9 +36,9 @@ export function EditBlock({ block }: { block: Block }) {
     }
     return (
         <>
-            <Button isIconOnly color="success" radius="full" size="lg" onPress={() => setOpen(true)} title="Editar Bloco"
+            <Button isIconOnly color="success" radius="full" size="md" onPress={() => setOpen(true)} title="Editar Bloco"
                 className="text-white/50 hover:text-white transition text-xl">
-                <PencilIcon className="h-10 w-10" />
+                <PencilIcon className="h-7 w-7" />
             </Button>
 
             {open &&
@@ -57,9 +57,9 @@ export function DeleteBlock({ block }: { block: Block }) {
         }
     }
     return (
-        <Button isIconOnly color="success" radius="full" size="lg" onPress={() => handleDelete()} title="Remover Bloco"
+        <Button isIconOnly color="success" radius="full" size="md" onPress={() => handleDelete()} title="Remover Bloco"
             className="text-white/50 hover:text-white transition text-xl">
-            <TrashIcon className="h-10 w-10" />
+            <TrashIcon className="h-7 w-7" />
         </Button>
     );
 }

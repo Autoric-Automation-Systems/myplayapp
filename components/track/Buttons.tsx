@@ -16,9 +16,9 @@ export default function AddTrack({ block_id }: { block_id: string }) {
     }
     return (
         <>
-            <Button isIconOnly color="success" radius="full" size="lg" onPress={() => setOpen(true)} title="Nova Faixa"
+            <Button isIconOnly color="success" radius="full" size="md" onPress={() => setOpen(true)} title="Nova Faixa"
                 className="text-white/50 hover:text-white transition text-xl">
-                <PlusIcon className="h-10 w-10" />
+                <PlusIcon className="h-7 w-7" />
             </Button>
 
             {open &&
@@ -37,9 +37,9 @@ export function EditTrack({ track }: { track: Track }) {
         }
         return (
             <>
-                <Button isIconOnly color="success" radius="full" size="lg" onPress={() => setOpen(true)} title="Editar Faixa"
+                <Button isIconOnly color="success" radius="full" size="sm" onPress={() => setOpen(true)} title="Editar Faixa"
                     className="text-white/50 hover:text-white transition text-xl">
-                    <PencilIcon className="h-10 w-10" />
+                    <PencilIcon className="h-5 w-5" />
                 </Button>
 
                 {open &&
@@ -59,9 +59,9 @@ export function DeleteTrack({ track }: { track: Track }) {
         }
     }
     return (
-        <Button isIconOnly color="success" radius="full" size="lg" onPress={() => handleDelete()} title="Remover Faixa"
+        <Button isIconOnly color="success" radius="full" size="sm" onPress={() => handleDelete()} title="Remover Faixa"
             className="text-white/50 hover:text-white transition text-xl">
-            <TrashIcon className="h-10 w-10" />
+            <TrashIcon className="h-5 w-5" />
         </Button>
     );
 }
