@@ -1,7 +1,7 @@
 import { CurrentUser } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import LogoffCard from "./LogoffCard";
+import LogoutButton from "./logoutButton";
 
 export default async function Header() {
     const user = await CurrentUser();
@@ -29,8 +29,7 @@ export default async function Header() {
                     width={40}
                     height={40}
                     className="rounded-full ml-2 h-auto fill-current w-auto hover:brightness-75 " />
-
-                <LogoffCard />
+                <LogoutButton />
             </div>
         </header>
     )
