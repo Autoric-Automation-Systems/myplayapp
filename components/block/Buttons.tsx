@@ -17,7 +17,7 @@ export default function AddBlock({ list_id }: { list_id: string }) {
     return (
         <>
             <Button isIconOnly color="success" radius="full" size="lg" onPress={() => setOpen(true)} title="Novo Bloco"
-                className="text-white/50 hover:text-white transition text-xl">
+                className=" transition text-xl">
                 <PlusIcon className="h-10 w-10" />
             </Button>
 
@@ -37,7 +37,7 @@ export function EditBlock({ block }: { block: Block }) {
     return (
         <>
             <Button isIconOnly color="success" radius="full" size="md" onPress={() => setOpen(true)} title="Editar Bloco"
-                className="text-white/50 hover:text-white transition text-xl">
+                className=" transition text-xl">
                 <PencilIcon className="h-7 w-7" />
             </Button>
 
@@ -58,7 +58,7 @@ export function DeleteBlock({ block }: { block: Block }) {
     }
     return (
         <Button isIconOnly color="success" radius="full" size="md" onPress={() => handleDelete()} title="Remover Bloco"
-            className="text-white/50 hover:text-white transition text-xl">
+            className="transition text-xl">
             <TrashIcon className="h-7 w-7" />
         </Button>
     );

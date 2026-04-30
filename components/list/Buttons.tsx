@@ -17,7 +17,7 @@ export default function AddList() {
     return (
         <>
             <Button isIconOnly color="success" radius="full" size="lg" onPress={() => setOpen(true)} title="Novo Repertório"
-                className="text-white/50 hover:text-white transition text-xl">
+                className="transition text-xl ">
                 <PlusIcon className="h-10 w-10" />
             </Button>
 
@@ -38,7 +38,7 @@ export function EditList({ list }: { list: List }) {
         return (
             <>
                 <Button isIconOnly color="success" radius="full" size="lg" onPress={() => setOpen(true)} title="Editar Repertório"
-                    className="text-white/50 hover:text-white transition text-xl">
+                    className="transition text-xl">
                     <PencilIcon className="h-10 w-10" />
                 </Button>
 
@@ -63,7 +63,7 @@ export function ShareList({ list }: { list: List }) {
 
     return (
         <Button isIconOnly color="success" radius="full" size="lg" onPress={() => handleShare()} title="Compartilhar Repertório"
-            className="text-white/50 hover:text-white transition text-xl">
+            className="transition text-xl">
             <ShareIcon className="h-10 w-10" />
         </Button>
     );
@@ -79,9 +79,10 @@ export function DeleteList({ list }: { list: List }) {
     return (
         <>
             <Button isIconOnly color="success" radius="full" size="lg" onPress={() => handleDelete()} title="Remover Repertório"
-                className="text-white/50 hover:text-white transition text-xl">
+                className=" transition text-xl">
                 <TrashIcon className="h-10 w-10" />
             </Button>
         </>
     );
-}   
+}
+

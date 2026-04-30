@@ -18,9 +18,9 @@ export default function Header({ list }: { list: List }) {
                     {list.title}
                 </h1>
                 {list.is_public ? (
-                    <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2 truncate">Repertório Publico</p>
+                    <p className=" text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2 truncate">Repertório Publico</p>
                 ) : (
-                    <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2 truncate">Repertório Privado</p>
+                    <p className="text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2 truncate">Repertório Privado</p>
                 )}
             </div>
             {/* Desktop buttons */}
@@ -35,7 +35,7 @@ export default function Header({ list }: { list: List }) {
             <div className="sm:hidden relative shrink-0">
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="bg-white/10 hover:bg-white/20 text-white p-1.5 rounded-lg text-sm"
+                    className="p-1.5 rounded-lg text-sm"
                 >
                     ⋯
                 </button>

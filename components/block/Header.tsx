@@ -29,7 +29,7 @@ export default function Header({ block }: { block: Block }) {
             <div className="sm:hidden relative shrink-0">
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="bg-white/10 hover:bg-white/20 text-white p-1.5 rounded-lg text-sm"
+                    className="p-1.5 rounded-lg text-sm"
                 >
                     ⋯
                 </button>
