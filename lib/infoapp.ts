@@ -9,7 +9,7 @@ const infoAPP: InfoAppInterface = {
     name: "MyPlayApp",
     site: "",
     version: "1.0",
-    description: "App for view ande edit your repertoires"
+    description: "App for view and edit your repertoires"
 }
 
 export default infoAPP;
