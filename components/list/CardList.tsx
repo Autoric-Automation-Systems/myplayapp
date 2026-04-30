@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchDataBlockCount } from "@/query/blocks/data";
 import { List } from "@/query/lists/definitions";
+import { MusicalNoteIcon } from "@heroicons/react/24/outline";
 
 export default async function CardList({ list }: { list: List }) {
     const blocksCount = await fetchDataBlockCount(list.id);
@@ -12,7 +13,7 @@ export default async function CardList({ list }: { list: List }) {
             {/* Ícone e nome */}
             <Link href={`/list/${list.id}`} className="block">
                 <div className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-xl sm:text-2xl">🎶</span>
+                    <MusicalNoteIcon className="w-8 h-8 text-orange-400" />
                     <div className="min-w-0 flex-1">
                         <h3 className="text-white font-semibold text-sm sm:text-lg truncate">
                             {list.title}

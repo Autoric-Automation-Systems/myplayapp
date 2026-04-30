@@ -1,6 +1,7 @@
 'use client';
 import { useState } from "react";
 import { usePanel } from "@/context/PanelContext";
+import { ArrowUturnLeftIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Panel() {
     const { track, closePanel } = usePanel();
@@ -9,7 +10,7 @@ export default function Panel() {
     if (!track) {
         return (
             <div className="h-full bg-[#3a1707] p-6 flex flex-col items-center justify-center text-white/40 rounded-xl">
-                <span className="text-5xl mb-4">🎵</span>
+                <ArrowUturnLeftIcon className="w-8 h-8" />
                 <p className="text-lg font-medium">Selecione uma música</p>
                 <p className="text-sm mt-2">Clique para ver os detalhes</p>
             </div>
@@ -30,7 +31,7 @@ export default function Panel() {
                     onClick={closePanel}
                     className="p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition"
                 >
-                    ✕
+                    <XCircleIcon className="w-8 h-8" />
                 </button>
             </div>
             {/* Tags */}

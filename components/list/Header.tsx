@@ -3,6 +3,7 @@ import type { List } from "@/query/lists/definitions";
 import { EditList, ShareList, DeleteList } from "./Buttons";
 import AddBlock from "../block/Buttons";
 import { useState } from "react";
+import { MusicalNoteIcon } from "@heroicons/react/24/outline";
 
 export default function Header({ list }: { list: List }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,9 +12,10 @@ export default function Header({ list }: { list: List }) {
 
     return (
         <div className="flex items-center justify-between mb-4 sm:mb-8">
-            <div className="hidden sm:flex">
+            <div className="hidden sm:flex flex items-start gap-2">
+                <MusicalNoteIcon className="w-8 h-8 text-orange-400" />
                 <h1 className="text-sm sm:text-xl font-bold text-orange-400 truncate">
-                    🎶{list.title}
+                    {list.title}
                 </h1>
                 {list.is_public ? (
                     <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1 pl-2">Repertório Publico</p>

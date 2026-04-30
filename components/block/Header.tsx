@@ -3,6 +3,7 @@ import type { Block } from "@/query/blocks/definitions";
 import { EditBlock, DeleteBlock } from "./Buttons";
 import AddTrack from "../track/Buttons";
 import { useState } from "react";
+import { RectangleGroupIcon } from "@heroicons/react/24/outline";
 
 export default function Header({ block }: { block: Block }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,9 +12,10 @@ export default function Header({ block }: { block: Block }) {
 
     return (
         <div className="flex items-center justify-between mb-4 sm:mb-8">
-            <div className="hidden sm:flex flex-col">
+            <div className="hidden sm:flex flex items-start gap-2">
+                <RectangleGroupIcon className="w-8 h-8 text-orange-400" />
                 <h1 className="text-sm sm:text-xl font-bold text-orange-400 truncate">
-                    🎶{block.title}
+                    {block.title}
                 </h1>
             </div>
             {/* Desktop buttons */}
