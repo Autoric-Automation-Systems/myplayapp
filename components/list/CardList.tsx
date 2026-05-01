@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { fetchDataBlockCount } from "@/query/blocks/data";
 import { List } from "@/query/lists/definitions";
-import { MusicalNoteIcon } from "@heroicons/react/24/outline";
+import { MusicalNoteIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 export default async function CardList({ list }: { list: List }) {
     const blocksCount = await fetchDataBlockCount(list.id);
@@ -26,7 +26,7 @@ export default async function CardList({ list }: { list: List }) {
 
                 {/* Seta indicativa */}
                 <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-white/20 group-hover:text-orange-400/60 transition-all group-hover:translate-x-1 text-xs sm:text-base">
-                    →
+                    <ArrowRightIcon className="w-6 h-6" />
                 </div>
 
             </Link>

@@ -3,7 +3,7 @@ import type { Block } from "@/query/blocks/definitions";
 import { EditBlock, DeleteBlock } from "./Buttons";
 import AddTrack from "../track/Buttons";
 import { useState } from "react";
-import { RectangleGroupIcon } from "@heroicons/react/24/outline";
+import { RectangleGroupIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
 export default function Header({ block }: { block: Block }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -29,15 +29,15 @@ export default function Header({ block }: { block: Block }) {
             <div className="sm:hidden relative shrink-0">
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="p-1.5 rounded-lg text-sm"
+                    className="p-1.5 rounded-lg text-xl hover:bg-white/10 text-white/40 hover:text-white transition"
                 >
-                    ⋯
+                    <Bars3Icon className="w-8 h-8" />
                 </button>
                 {menuOpen && (
                     <>
                         <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
 
-                        <div className="absolute right-0 mt-1 w-48 bg-[#2b1205] rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden">
+                        <div className="flex flex-row gap-1 absolute right-10 mt-1 w-auto p-1 rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden bg-[#3a1707] text-white">
                             <EditBlock block={block} />
                             <AddTrack block_id={block.id} />
                             <DeleteBlock block={block} />

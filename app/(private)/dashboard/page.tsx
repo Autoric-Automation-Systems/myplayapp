@@ -4,9 +4,11 @@ import { List } from "@/query/lists/definitions";
 import MsgPage from "@/components/layout/msgPage";
 import CardList from "@/components/list/CardList";
 import Header from "./Header";
+import { MusicalNoteIcon } from "@heroicons/react/24/outline";
 
 export default async function Dashboard() {
     const user = await CurrentUser();
+    if (!user) return null;
     const lists = await fetchDataLists(user.id!);
 
     return (
@@ -24,8 +26,8 @@ export default async function Dashboard() {
                     })}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-white/30">
-                    <span className="text-4xl sm:text-6xl mb-3 sm:mb-4">🎵</span>
+                <div className="flex flex-col items-center justify-center py-16 sm:py-20">
+                    <MusicalNoteIcon className="w-12 h-12 text-orange-400" />
                     <p className="text-base sm:text-lg font-medium">Nenhum repertório ainda</p>
                     <p className="text-xs sm:text-sm mt-1 sm:mt-2">Clique em Novo Repertório para começar</p>
                 </div>

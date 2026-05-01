@@ -5,6 +5,7 @@ import LogoutButton from "./logoutButton";
 
 export default async function Header() {
     const user = await CurrentUser();
+    if (!user) return null;
     return (
         <header className="flex items-center p-0 bg-[#3a1707]">
             <div>
@@ -20,16 +21,7 @@ export default async function Header() {
                 </Link>
             </div>
             <div className="ml-auto flex items-center mr-4">
-                <span className="text-sm sm:text-base text-white mr-2 sm:mr-4 ">
-                    {user?.name}
-                </span>
-                <Image
-                    src={user?.picture ?? ""}
-                    alt="Avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full ml-2 h-auto fill-current w-auto hover:brightness-75 " />
-                <LogoutButton />
+                <LogoutButton user={user} />
             </div>
         </header>
     )

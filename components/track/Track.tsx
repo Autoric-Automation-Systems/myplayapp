@@ -9,7 +9,7 @@ export default function TrackCard({ track }: { track: Track }) {
         <>
             <div
                 onClick={() => openPanel(track)}
-                className="flex items-center gap-2 bg-white/[0.03] hover:bg-white/[0.07] rounded-lg px-2 sm:px-3 py-2 sm:py-1.5 transition-all duration-150 border border-transparent hover:border-orange-800/40 group cursor-pointer"
+                className="flex items-center gap-2 bg-white/[0.03] hover:bg-white/[0.07] rounded-lg px-2 sm:px-3 py-2 sm:py-1.5 transition-all duration-150 border border-transparent hover:border-orange-800/40 group cursor-pointer text-white/80"
             >
                 <div className="flex-1 sm:flex-[2] pl-2 truncate min-w-0">{track.title}</div>
                 <div className="hidden sm:block sm:flex-[2] pl-2 truncate">{track.artist}</div>

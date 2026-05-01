@@ -109,6 +109,7 @@ export async function deleteList(id: string) {
 
 export async function addList(list: List) {
   const user = await CurrentUser();
+  if (!user) return null;
   try {
     await sql`
         INSERT INTO public.lists ( user_id, title, is_public, is_favorite) 

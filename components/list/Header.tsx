@@ -3,7 +3,7 @@ import type { List } from "@/query/lists/definitions";
 import { EditList, ShareList, DeleteList } from "./Buttons";
 import AddBlock from "../block/Buttons";
 import { useState } from "react";
-import { MusicalNoteIcon } from "@heroicons/react/24/outline";
+import { MusicalNoteIcon, Bars4Icon } from "@heroicons/react/24/outline";
 
 export default function Header({ list }: { list: List }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -35,14 +35,14 @@ export default function Header({ list }: { list: List }) {
             <div className="sm:hidden relative shrink-0">
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="p-1.5 rounded-lg text-sm"
+                    className="p-1.5 rounded-lg text-xl "
                 >
-                    ⋯
+                    <Bars4Icon className="w-8 h-8" />
                 </button>
                 {menuOpen && (
                     <>
                         <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
-                        <div className="absolute right-0 mt-1 w-60 bg-[#2b1205] rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden">
+                        <div className="flex flex-row gap-1 absolute right-10 mt-1 w-auto p-2 rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden bg-[#3a1707] text-white">
                             <EditList list={list} />
                             <DeleteList list={list} />
                             <ShareList list={list} />

@@ -2,6 +2,8 @@
 import { z } from 'zod';
 import { sql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -113,4 +115,8 @@ export async function updateUserPassword(id: string, password: string) {
 
 export async function deleteData(id: string) {
   await sql`DELETE FROM public.users WHERE id = ${id}`;
+  revalidatePath('/');
+  redirect(
+    '/?title=Sucesso&message=A conta foi deletada com sucesso!&type=success'
+  );
 }
