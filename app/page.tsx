@@ -6,6 +6,7 @@ import {
   ShareIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
+import PixCard from '@/components/pix/PixCard';
 
 const features = [
   {
@@ -43,14 +44,18 @@ export default function LandPage() {
         <div className="absolute inset-0 hidden bg-gradient-to-r from-[#170903]/90 via-[#170903]/35 to-transparent sm:block" />
 
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-10 pt-24 sm:px-8 sm:py-20">
-          <Link href="/" className="mb-6 flex w-fit items-center" aria-label="MyPlayApp">
+          <Link
+            href="/"
+            className="mx-auto mb-6 flex w-fit items-center sm:mx-0"
+            aria-label="MyPlayApp"
+          >
             <Image
               src="/logo.png"
               alt="MyPlayApp"
               width={200}
               height={200}
               priority
-              className="h-12 w-auto sm:h-16"
+              className="h-16 w-auto sm:h-20"
             />
           </Link>
 
@@ -111,6 +116,10 @@ export default function LandPage() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-10 sm:mt-14">
+          <PixCard />
+        </div>
       </section>
     </div>
   );

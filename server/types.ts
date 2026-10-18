@@ -49,3 +49,9 @@ export type ListDetail = {
   list: List;
   blocks: BlockWithTracks[];
 };
+
+export type ListOwner = Pick<User, 'id' | 'name' | 'picture'>;
+
+export type PublicListDetail = ListDetail & {
+  owner: ListOwner | null;
+};

@@ -44,8 +44,16 @@ O projeto usa **npm**. Não crie lockfiles de outros gerenciadores.
 - `unstable_rethrow` em `actionError` mantém `redirect()`/`notFound()` funcionando
   quando lançados dentro de um `try/catch`.
 - Datas vindas do driver são `Date | string` (`server/types.ts`).
-- Repertório público (`is_public`) é somente leitura em `/view/[id]`.
+- Repertório nasce público (`is_public` default `true`); o dono pode torná-lo privado.
+- Repertório público (`is_public`) é somente leitura em `/view/[id]` e exibe nome e foto
+  do dono, nunca o e-mail.
 - Depois de qualquer escrita, revalide o path afetado com `revalidatePath`.
+
+## Doações
+
+- `lib/pix.ts` monta o BR Code (TLV + CRC16) a partir da chave Pix; não invente payload
+  à mão. `components/pix/PixCard.tsx` gera o QR no servidor com `qrcode` (SVG, sem JS
+  no cliente).
 
 ## Estilo
 

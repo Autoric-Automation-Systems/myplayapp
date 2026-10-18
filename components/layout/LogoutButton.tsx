@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import {
   ArrowRightStartOnRectangleIcon,
+  HomeIcon,
   InformationCircleIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -36,6 +37,11 @@ export default function LogoutButton({ user }: { user: User }) {
         </span>
       }
       items={[
+        {
+          label: 'Home',
+          icon: <HomeIcon className="h-6 w-6" />,
+          href: '/',
+        },
         {
           label: 'Meu Perfil',
           icon: <UserCircleIcon className="h-6 w-6" />,

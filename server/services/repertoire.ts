@@ -6,7 +6,7 @@ import { parseId } from '@/server/schemas/common';
 import type { ListCreateInput, ListUpdateInput } from '@/server/schemas/list';
 import type { BlockInput } from '@/server/schemas/block';
 import type { TrackInput } from '@/server/schemas/track';
-import type { ListDetail, ListSummary } from '@/server/types';
+import type { ListDetail, ListSummary, PublicListDetail } from '@/server/types';
 import {
   deleteListById,
   findListById,
@@ -25,6 +25,7 @@ import {
   insertTrack,
   updateTrackById,
 } from '@/server/repositories/tracks';
+import { findPublicUserById } from '@/server/repositories/users';
 
 export async function getDashboardLists(): Promise<ListSummary[]> {
   const user = await requireUser();
@@ -44,20 +45,25 @@ export async function getOwnedListDetail(listId: string): Promise<ListDetail> {
 }
 
 export const getPublicListDetail = cache(
-  async (listId: string): Promise<ListDetail | null> => {
+  async (listId: string): Promise<PublicListDetail | null> => {
     const id = parseId(listId);
     if (!id) return null;
 
     const list = await findListById(id);
     if (!list || !list.is_public) return null;
 
-    return { list, blocks: await blocksWithTracks(list.id) };
+    const [blocks, owner] = await Promise.all([
+      blocksWithTracks(list.id),
+      findPublicUserById(list.user_id),
+    ]);
+
+    return { list, blocks, owner };
   }
 );
 
 export async function createList(input: ListCreateInput): Promise<void> {
   const user = await requireUser();
-  await insertList({ userId: user.id, title: input.title });
+  await insertList({ userId: user.id, title: input.title, isPublic: input.is_public });
 }
 
 export async function updateList(id: string, input: ListUpdateInput): Promise<void> {

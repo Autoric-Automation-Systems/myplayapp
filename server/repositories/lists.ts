@@ -36,7 +36,7 @@ export async function insertList(input: {
 }): Promise<string> {
   const rows = await sql`
     INSERT INTO public.lists (user_id, title, is_public, is_favorite)
-    VALUES (${input.userId}, ${input.title}, ${input.isPublic ?? false}, false)
+    VALUES (${input.userId}, ${input.title}, ${input.isPublic ?? true}, false)
     RETURNING id
   `;
   return (rows[0] as { id: string }).id;

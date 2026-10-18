@@ -8,6 +8,7 @@ const title = z
 
 export const listCreateSchema = z.object({
   title,
+  is_public: z.boolean().default(true),
 });
 
 export const listUpdateSchema = z.object({

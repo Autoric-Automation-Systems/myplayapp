@@ -15,7 +15,7 @@ export default function ListFormModal({
   onClose: () => void;
 }) {
   const [title, setTitle] = useState(list?.title ?? '');
-  const [isPublic, setIsPublic] = useState(list?.is_public ?? false);
+  const [isPublic, setIsPublic] = useState(list?.is_public ?? true);
   const { run, pending, error } = useAction();
 
   function handleSubmit() {
@@ -23,7 +23,7 @@ export default function ListFormModal({
       run(() => updateList(list.id, { title, is_public: isPublic }), onClose);
       return;
     }
-    run(() => createList({ title }), onClose);
+    run(() => createList({ title, is_public: isPublic }), onClose);
   }
 
   return (
@@ -45,14 +45,12 @@ export default function ListFormModal({
         />
       </Field>
 
-      {list && (
-        <Toggle
-          checked={isPublic}
-          onChange={setIsPublic}
-          label="Repertório público"
-          description="Qualquer pessoa com o link pode visualizar."
-        />
-      )}
+      <Toggle
+        checked={isPublic}
+        onChange={setIsPublic}
+        label="Repertório público"
+        description="Qualquer pessoa com o link pode visualizar."
+      />
     </Modal>
   );
 }
