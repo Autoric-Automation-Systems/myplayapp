@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Blocks from '@/components/block/Blocks';
 import MessageBoundary from '@/components/ui/MessageBoundary';
+import KeepAwakeButton from '@/components/pwa/KeepAwakeButton';
 import type { PublicListDetail } from '@/server/types';
 
 export default function PublicRepertoire({ detail }: { detail: PublicListDetail }) {
@@ -17,12 +18,15 @@ export default function PublicRepertoire({ detail }: { detail: PublicListDetail 
             <p className="text-[10px] font-medium uppercase tracking-wider text-orange-400/70 sm:text-xs">
               Repertório público
             </p>
-            <Link
-              href="/"
-              className="shrink-0 rounded-full border border-white/10 px-3 py-1 text-[11px] text-white/70 transition hover:border-white/20 hover:text-white sm:text-xs"
-            >
-              MyPlayApp
-            </Link>
+            <div className="flex shrink-0 items-center gap-2">
+              <KeepAwakeButton />
+              <Link
+                href="/"
+                className="rounded-full border border-white/10 px-3 py-1 text-[11px] text-white/70 transition hover:border-white/20 hover:text-white sm:text-xs"
+              >
+                MyPlayApp
+              </Link>
+            </div>
           </div>
 
           <div className="min-w-0">

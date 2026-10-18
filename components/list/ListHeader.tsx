@@ -19,7 +19,7 @@ import ListFormModal from './ListFormModal';
 
 type Dialog = 'edit' | 'add-block' | null;
 
-export default function Header({ list }: { list: List }) {
+export default function ListHeader({ list }: { list: List }) {
   const [dialog, setDialog] = useState<Dialog>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const { run, pending, error } = useAction();

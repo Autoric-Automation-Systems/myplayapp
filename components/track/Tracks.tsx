@@ -3,7 +3,7 @@
 import { PlayIcon } from '@heroicons/react/24/outline';
 import EmptyState from '@/components/ui/EmptyState';
 import type { Track } from '@/server/types';
-import Header from './Header';
+import TrackHeader from './TrackHeader';
 import TrackCard from './Track';
 
 export function Tracks({
@@ -15,7 +15,7 @@ export function Tracks({
 }) {
   return (
     <div className="space-y-0.5 sm:space-y-1.5">
-      <Header readOnly={readOnly} />
+      <TrackHeader readOnly={readOnly} />
       {tracks.length === 0 ? (
         <EmptyState
           icon={PlayIcon}

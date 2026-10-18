@@ -1,4 +1,4 @@
-import Header from '@/components/layout/Header';
+import AppHeader from '@/components/layout/AppHeader';
 import { requireUser } from '@/server/session';
 
 export default async function PrivateLayout({
@@ -10,7 +10,7 @@ export default async function PrivateLayout({
 
   return (
     <>
-      <Header />
+      <AppHeader />
       {children}
     </>
   );

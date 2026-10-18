@@ -1,11 +1,18 @@
 'use client';
 
 import { useState, type MouseEvent } from 'react';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  EllipsisVerticalIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
 import { IconButton } from '@/components/ui/Button';
+import DropdownMenu, { type DropdownItem } from '@/components/ui/DropdownMenu';
 import { useAction } from '@/components/ui/useAction';
 import { usePanel } from '@/context/PanelContext';
-import { deleteTrack } from '@/server/actions/tracks';
+import { deleteTrack, moveTrack } from '@/server/actions/tracks';
 import type { Track } from '@/server/types';
 import TrackFormModal from './TrackFormModal';
 
@@ -20,11 +27,35 @@ export default function TrackCard({
   const [editing, setEditing] = useState(false);
   const { run, pending, error } = useAction();
 
-  function handleDelete(event: MouseEvent<HTMLButtonElement>) {
-    event.stopPropagation();
+  function handleDelete(event?: MouseEvent<HTMLButtonElement>) {
+    event?.stopPropagation();
     if (!confirm('Remover esta música?')) return;
     run(() => deleteTrack(track.id));
   }
+
+  const menuItems: DropdownItem[] = [
+    {
+      label: 'Editar',
+      icon: <PencilSquareIcon className="h-5 w-5" />,
+      onSelect: () => setEditing(true),
+    },
+    {
+      label: 'Mover para cima',
+      icon: <ArrowUpIcon className="h-5 w-5" />,
+      onSelect: () => run(() => moveTrack(track.id, 'up')),
+    },
+    {
+      label: 'Mover para baixo',
+      icon: <ArrowDownIcon className="h-5 w-5" />,
+      onSelect: () => run(() => moveTrack(track.id, 'down')),
+    },
+    {
+      label: 'Remover',
+      icon: <TrashIcon className="h-5 w-5" />,
+      onSelect: () => handleDelete(),
+      danger: true,
+    },
+  ];
 
   return (
     <>
@@ -51,25 +82,57 @@ export default function TrackCard({
         </button>
 
         {!readOnly && (
-          <div className="flex w-24 shrink-0 items-center justify-end gap-1 pr-1 sm:w-28 sm:pr-2">
-            <IconButton
-              label="Editar música"
-              size="sm"
-              variant="ghost"
-              icon={<PencilSquareIcon className="h-4 w-4" />}
-              onClick={(event) => {
-                event.stopPropagation();
-                setEditing(true);
-              }}
-            />
-            <IconButton
-              label="Remover música"
-              size="sm"
-              variant="ghost"
-              icon={<TrashIcon className="h-4 w-4" />}
-              disabled={pending}
-              onClick={handleDelete}
-            />
+          <div className="flex shrink-0 items-center justify-end gap-1 pr-1 sm:pr-2">
+            <div className="hidden items-center gap-1 sm:flex">
+              <IconButton
+                label="Mover para cima"
+                size="sm"
+                variant="ghost"
+                icon={<ArrowUpIcon className="h-4 w-4" />}
+                disabled={pending}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  run(() => moveTrack(track.id, 'up'));
+                }}
+              />
+              <IconButton
+                label="Mover para baixo"
+                size="sm"
+                variant="ghost"
+                icon={<ArrowDownIcon className="h-4 w-4" />}
+                disabled={pending}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  run(() => moveTrack(track.id, 'down'));
+                }}
+              />
+              <IconButton
+                label="Editar música"
+                size="sm"
+                variant="ghost"
+                icon={<PencilSquareIcon className="h-4 w-4" />}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setEditing(true);
+                }}
+              />
+              <IconButton
+                label="Remover música"
+                size="sm"
+                variant="ghost"
+                icon={<TrashIcon className="h-4 w-4" />}
+                disabled={pending}
+                onClick={handleDelete}
+              />
+            </div>
+
+            <div className="sm:hidden">
+              <DropdownMenu
+                label="Ações da música"
+                trigger={<EllipsisVerticalIcon className="h-5 w-5 text-white/60" />}
+                items={menuItems}
+              />
+            </div>
           </div>
         )}
       </div>

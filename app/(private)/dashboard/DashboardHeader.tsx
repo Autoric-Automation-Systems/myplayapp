@@ -1,6 +1,6 @@
 import AddList from '@/components/list/AddList';
 
-export default function Header({ count }: { count: number }) {
+export default function DashboardHeader({ count }: { count: number }) {
   return (
     <div className="mb-4 flex items-center justify-between sm:mb-8">
       <div>

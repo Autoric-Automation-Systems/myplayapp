@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import {
+  ArrowDownIcon,
+  ArrowUpIcon,
   Bars3Icon,
   PencilSquareIcon,
   PlusIcon,
@@ -11,14 +13,14 @@ import {
 import { IconButton } from '@/components/ui/Button';
 import DropdownMenu, { type DropdownItem } from '@/components/ui/DropdownMenu';
 import { useAction } from '@/components/ui/useAction';
-import { deleteBlock } from '@/server/actions/blocks';
+import { deleteBlock, moveBlock } from '@/server/actions/blocks';
 import type { Block } from '@/server/types';
 import TrackFormModal from '../track/TrackFormModal';
 import BlockFormModal from './BlockFormModal';
 
 type Dialog = 'edit' | 'add-track' | null;
 
-export default function Header({
+export default function BlockHeader({
   block,
   readOnly = false,
 }: {
@@ -38,6 +40,16 @@ export default function Header({
       label: 'Editar',
       icon: <PencilSquareIcon className="h-5 w-5" />,
       onSelect: () => setDialog('edit'),
+    },
+    {
+      label: 'Mover para cima',
+      icon: <ArrowUpIcon className="h-5 w-5" />,
+      onSelect: () => run(() => moveBlock(block.id, 'up')),
+    },
+    {
+      label: 'Mover para baixo',
+      icon: <ArrowDownIcon className="h-5 w-5" />,
+      onSelect: () => run(() => moveBlock(block.id, 'down')),
     },
     {
       label: 'Nova música',
@@ -63,6 +75,22 @@ export default function Header({
         {!readOnly && (
           <>
             <div className="hidden shrink-0 items-center gap-2 sm:flex">
+              <IconButton
+                label="Mover bloco para cima"
+                size="sm"
+                variant="ghost"
+                icon={<ArrowUpIcon className="h-4 w-4" />}
+                disabled={pending}
+                onClick={() => run(() => moveBlock(block.id, 'up'))}
+              />
+              <IconButton
+                label="Mover bloco para baixo"
+                size="sm"
+                variant="ghost"
+                icon={<ArrowDownIcon className="h-4 w-4" />}
+                disabled={pending}
+                onClick={() => run(() => moveBlock(block.id, 'down'))}
+              />
               <IconButton
                 label="Editar bloco"
                 size="sm"

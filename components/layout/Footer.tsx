@@ -21,6 +21,12 @@ export default function Footer() {
 
         <nav className="flex items-center gap-4 sm:gap-5">
           <Link
+            href="/sobre"
+            className="text-[11px] text-orange-200/70 transition-colors hover:text-orange-200 sm:text-xs"
+          >
+            Sobre
+          </Link>
+          <Link
             href="/appservice"
             className="text-[11px] text-orange-200/70 transition-colors hover:text-orange-200 sm:text-xs"
           >

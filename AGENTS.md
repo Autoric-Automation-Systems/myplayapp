@@ -13,9 +13,14 @@ npm install
 npm run dev          # http://localhost:3000
 npm run typecheck    # tsc --noEmit
 npm run lint         # eslint
+npm run test         # vitest run (tests/)
 npm run build        # build de produção
 npm run db:migrate   # aplica db/migrations via Neon
 ```
+
+Para rodar `npm run build` sem banco/credenciais reais, exporte valores de mentira:
+`DATABASE_URL=postgresql://u:p@localhost/db AUTH_SECRET=x AUTH_GOOGLE_ID=x AUTH_GOOGLE_SECRET=x`.
+`lib/env.ts` valida no import e derruba o build sem eles — de propósito.
 
 O projeto usa **npm**. Não crie lockfiles de outros gerenciadores.
 
@@ -48,6 +53,10 @@ O projeto usa **npm**. Não crie lockfiles de outros gerenciadores.
 - Repertório público (`is_public`) é somente leitura em `/view/[id]` e exibe nome e foto
   do dono, nunca o e-mail.
 - Depois de qualquer escrita, revalide o path afetado com `revalidatePath`.
+- Ordenação de blocos/músicas usa `moveInSequence` (`lib/reorder.ts`); o repositório
+  regrava a sequência inteira dentro de uma transação.
+- Variáveis de ambiente passam por `env()` (`lib/env.ts`), nunca por `process.env.X!`.
+- Erros inesperados são logados com `logError` (`lib/logger.ts`), em JSON de uma linha.
 
 ## Compartilhamento de links
 
@@ -55,9 +64,11 @@ O projeto usa **npm**. Não crie lockfiles de outros gerenciadores.
   `infoAPP.tagline` alimenta `description` e `openGraph`; mantenha sem jargão técnico.
   `infoAPP.description` é a ficha técnica e fica só na tela Sobre o App.
 - `app/opengraph-image.png` (1200x630) é a imagem de preview de todas as rotas.
-- `openGraph` definido numa página substitui o do layout inteiro. Para não perder
-  imagem, site e locale, espalhe o do pai:
-  `const { openGraph } = await parent; openGraph: { ...openGraph, ...override }`.
+- Páginas com metadata própria usam `pageMetadata()` (`lib/seo.ts`), que herda o
+  `openGraph` do layout. `openGraph` definido numa página substitui o do layout inteiro:
+  sem herdar, o link perde imagem, site e locale.
+- `robots.ts` bloqueia `/view/`, `/list/`, `/dashboard` e `/profile`: link compartilhado
+  é para quem recebeu, não para o índice do Google.
 
 ## Doações
 

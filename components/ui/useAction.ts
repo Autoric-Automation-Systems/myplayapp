@@ -21,10 +21,9 @@ export function useAction() {
 
         onSuccess?.();
 
-        if (result.redirectTo) {
-          router.push(result.redirectTo);
-          router.refresh();
-        }
+        if (result.redirectTo) router.push(result.redirectTo);
+        // Ações silenciosas (ex.: reordenar) só revalidam os dados da rota atual.
+        router.refresh();
       } catch {
         setError('Não foi possível concluir a ação. Verifique sua conexão.');
       }

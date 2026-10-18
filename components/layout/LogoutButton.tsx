@@ -50,7 +50,7 @@ export default function LogoutButton({ user }: { user: User }) {
         {
           label: 'Sobre o App',
           icon: <InformationCircleIcon className="h-6 w-6" />,
-          href: '/infoApp',
+          href: '/sobre',
         },
         {
           label: 'Sair',

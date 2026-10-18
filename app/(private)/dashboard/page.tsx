@@ -3,7 +3,7 @@ import CardList from '@/components/list/CardList';
 import EmptyState from '@/components/ui/EmptyState';
 import MessageBoundary from '@/components/ui/MessageBoundary';
 import { getDashboardLists } from '@/server/services/repertoire';
-import Header from './Header';
+import DashboardHeader from './DashboardHeader';
 
 export default async function Dashboard() {
   const lists = await getDashboardLists();
@@ -11,7 +11,7 @@ export default async function Dashboard() {
   return (
     <div className="p-3 sm:p-6">
       <MessageBoundary />
-      <Header count={lists.length} />
+      <DashboardHeader count={lists.length} />
 
       {lists.length > 0 ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">

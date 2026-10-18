@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Footer from '@/components/layout/Footer';
+import ServiceWorkerRegister from '@/components/pwa/ServiceWorkerRegister';
 import infoAPP from '@/lib/infoapp';
 
 const geistSans = Geist({
@@ -55,6 +56,7 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col">
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

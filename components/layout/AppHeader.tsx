@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getCurrentUser } from '@/server/session';
 import LogoutButton from './LogoutButton';
 
-export default async function Header() {
+export default async function AppHeader() {
   const user = await getCurrentUser();
   if (!user) return null;
 

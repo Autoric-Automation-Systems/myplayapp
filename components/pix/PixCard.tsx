@@ -2,14 +2,24 @@ import QRCode from 'qrcode';
 import { buildPixPayload, PIX_CNPJ_LABEL } from '@/lib/pix';
 import CopyPixButton from './CopyPixButton';
 
-export default async function PixCard() {
-  const payload = buildPixPayload();
-  const qrCode = await QRCode.toString(payload, {
+// O payload é fixo: gerar o SVG uma vez por processo evita recomputar a matriz do QR
+// a cada request (a tela Sobre é dinâmica por causa da sessão).
+let qrCodePromise: Promise<string> | null = null;
+
+function getQrCode(payload: string) {
+  qrCodePromise ??= QRCode.toString(payload, {
     type: 'svg',
     margin: 0,
     errorCorrectionLevel: 'M',
     width: 220,
   });
+
+  return qrCodePromise;
+}
+
+export default async function PixCard() {
+  const payload = buildPixPayload();
+  const qrCode = await getQrCode(payload);
 
   return (
     <section
