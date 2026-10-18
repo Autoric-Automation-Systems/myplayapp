@@ -29,11 +29,34 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     authorized({ auth }) {
       return Boolean(auth?.user);
     },
-    async jwt({ token }) {
+    async signIn({ user, account }) {
+      if (account?.provider !== 'google' || !user.email) return false;
+
+      const email = user.email.trim().toLowerCase();
+      const dbUser = await upsertGoogleUser({
+        name: user.name?.trim() || email,
+        email,
+        picture: user.image ?? null,
+      });
+
+      // Repassa o id do banco para o primeiro JWT; evita uma consulta extra.
+      user.id = dbUser.id;
+
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user?.id) token.id = user.id;
+
       if (!token.id && token.email) {
-        const user = await findUserByEmail(token.email);
-        if (user) token.id = user.id;
+        try {
+          const dbUser = await findUserByEmail(token.email);
+          if (dbUser) token.id = dbUser.id;
+        } catch (error) {
+          // Não derruba o login inteiro por uma falha momentânea de banco.
+          console.error('Falha ao resolver o usuário da sessão:', error);
+        }
       }
+
       return token;
     },
     async session({ session, token }) {
@@ -44,24 +67,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session;
     },
-    async signIn({ user }) {
-      if (!user.email) return false;
-
-      const email = user.email.trim().toLowerCase();
-
-      await upsertGoogleUser({
-        name: user.name?.trim() || email,
-        email,
-        picture: user.image ?? null,
-      });
-
-      return true;
-    },
     async redirect({ url, baseUrl }) {
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       if (new URL(url).origin === new URL(baseUrl).origin) return url;
       return `${baseUrl}/dashboard`;
     },
   },
-  secret: process.env.AUTH_SECRET,
+  // AUTH_SECRET é o nome do v5; NEXTAUTH_SECRET mantém compatibilidade com
+  // deploys que já existiam antes do refactor.
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
 });

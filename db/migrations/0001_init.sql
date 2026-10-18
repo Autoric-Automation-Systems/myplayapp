@@ -11,9 +11,6 @@ CREATE TABLE IF NOT EXISTS public.users (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
--- Necessário para o upsert por e-mail feito no login.
-CREATE UNIQUE INDEX IF NOT EXISTS users_email_key ON public.users (email);
-
 CREATE TABLE IF NOT EXISTS public.lists (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES public.users (id) ON DELETE CASCADE,
