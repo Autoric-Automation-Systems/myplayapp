@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useState, ReactNode } from 'react';
-import type { Track } from '@/query/tracks/definitions';
+import type { Track } from '@/server/types';
 
 type PanelContextType = {
     isOpen: boolean;

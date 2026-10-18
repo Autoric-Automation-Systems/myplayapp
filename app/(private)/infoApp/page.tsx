@@ -1,8 +1,9 @@
-import InfoCard from "./InfoCard";
-export default async function InfoPage() {
-    return (
-        <div className="p-3 sm:p-6 max-w-2xl mx-auto space-y-6">
-            <InfoCard />
-        </div>
-    );
+import InfoCard from './InfoCard';
+
+export default function InfoPage() {
+  return (
+    <div className="mx-auto max-w-2xl space-y-6 p-3 sm:p-6">
+      <InfoCard />
+    </div>
+  );
 }

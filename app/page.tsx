@@ -1,33 +1,34 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+
 export default function LandPage() {
-    return (
-        <div className="relative h-screen flex items-center justify-center bg-gradient-to-b from-[#2b1205] to-[#1a0a02] text-white overflow-hidden">
-            <div className="relative z-30 text-center ml-50 md:ml-0">
-                <a
-                    href="/login"
-                    className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                    Entrar
-                </a>
-            </div>
-            {/* Desktop */}
-            <Image
-                width={1920}
-                height={1080}
-                src="/hero.png"
-                alt="Hero"
-                priority
-                className="hidden md:block absolute bottom-0 left-0 right-0 w-full h-full object-contain opacity-90 pointer-events-none"
-            />
-            {/* Mobile */}
-            <Image
-                width={480}
-                height={800}
-                src="/hero_mobile.png"
-                alt="Hero"
-                priority
-                className="block md:hidden absolute inset-0 mx-auto w-auto h-full max-h-dvh object-contain opacity-90 pointer-events-none"
-            />
-        </div>
-    );
+  return (
+    <div className="relative flex min-h-[calc(100dvh-9rem)] items-center justify-center overflow-hidden bg-gradient-to-b from-surface-deep to-[#1a0a02] text-white">
+      <div className="relative z-30 text-center md:ml-0">
+        <Link
+          href="/login"
+          className="transform rounded-lg bg-green-600 px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-green-700"
+        >
+          Entrar
+        </Link>
+      </div>
+
+      <Image
+        width={1920}
+        height={1080}
+        src="/hero.png"
+        alt=""
+        priority
+        className="pointer-events-none absolute inset-0 hidden h-full w-full object-contain opacity-90 md:block"
+      />
+      <Image
+        width={480}
+        height={800}
+        src="/hero_mobile.png"
+        alt=""
+        priority
+        className="pointer-events-none absolute inset-0 mx-auto block h-full max-h-dvh w-auto object-contain opacity-90 md:hidden"
+      />
+    </div>
+  );
 }

@@ -1,17 +1,15 @@
+import AddList from '@/components/list/AddList';
 
-import AddList from "@/components/list/Buttons";
-
-export default async function Header({ count }: { count: number }) {
-    return (
-        <div className="flex items-center justify-between mb-4 sm:mb-8">
-            <div>
-                <h1 className="text-lg sm:text-2xl font-bold text-orange-400">Meus Repertórios</h1>
-                <p className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1">
-                    {count} repertório{count !== 1 ? "s" : ""}
-                </p>
-            </div>
-            <AddList />
-        </div>
-
-    )
+export default function Header({ count }: { count: number }) {
+  return (
+    <div className="mb-4 flex items-center justify-between sm:mb-8">
+      <div>
+        <h1 className="text-lg font-bold text-orange-400 sm:text-2xl">Meus Repertórios</h1>
+        <p className="mt-0.5 text-xs text-white/50 sm:mt-1 sm:text-sm">
+          {count} repertório{count !== 1 ? 's' : ''}
+        </p>
+      </div>
+      <AddList />
+    </div>
+  );
 }

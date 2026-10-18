@@ -1,14 +1,17 @@
-import Header from "@/components/layout/Header";
+import Header from '@/components/layout/Header';
+import { requireUser } from '@/server/session';
 
-export default function RootLayout({
-    children,
+export default async function PrivateLayout({
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <>
-            <Header />
-            {children}
-        </>
-    );
+  await requireUser();
+
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }

@@ -1,144 +1,111 @@
 # MyPlayApp
 
-Plataforma interativa desenvolvida com **Next.js 16**, React 19, autenticacao via **NextAuth v5**, banco de dados **Neon (PostgreSQL serverless)**, e estilizada com **Tailwind CSS v4**.
+Aplicativo web para montar, organizar e compartilhar repertórios de música.
 
----
+Cada **repertório** contém **blocos** (momentos do show, por exemplo) e cada bloco contém **músicas**
+com tom, BPM, estilo e letra. O dono do repertório pode torná-lo público e compartilhar um link de
+leitura.
 
-## Tecnologias
+## Stack
 
-- [Next.js 16](https://nextjs.org) — Framework React com App Router
-- [React 19](https://react.dev) — Biblioteca para interfaces de usuario
-- [NextAuth v5](https://next-auth.js.org) — Autenticacao moderna e segura
-- [Neon](https://neon.tech) — Banco de dados PostgreSQL serverless
-- [Tailwind CSS v4](https://tailwindcss.com) — Estilizacao utilitaria e eficiente
-- [DnD Kit](https://dndkit.com) — Interatividade com drag-and-drop
-- [Heroicons](https://heroicons.com) + [React Icons](https://react-icons.github.io/react-icons/) — Icones otimizados
-- [Zod](https://zod.dev) — Validacao de dados tipo-safe
-- [bcryptjs](https://github.com/dcodeIO/bcrypt.js) — Criptografia de senhas
+- Next.js 16 (App Router, Server Components, Server Actions)
+- React 19 e TypeScript
+- Tailwind CSS 4
+- NextAuth v5 com login via Google
+- Neon Postgres (`@neondatabase/serverless`)
+- Zod para validação de entrada
 
----
-
-## Estrutura do Projeto
+## Arquitetura
 
 ```
-app/
-  (public)/               # Rotas publicas
-    appservice/           # Termos de Servico
-    info/                 # Informacoes / Sobre
-    login/                # Pagina de login
-    privacy/              # Politica de Privacidade
-    view/[id]/            # Visualizacao publica de conteudo
-  (private)/              # Rotas privadas (autenticadas)
-    dashboard/            # Painel do usuario
-    list/[id]/            # Gerenciamento de listas
-  api/
-    auth/[...nextauth]/   # Rota de autenticacao NextAuth
-  layout.tsx              # Layout raiz
-  page.tsx                # Pagina inicial (Landing Page)
-  globals.css             # Estilos globais Tailwind
+app/                      Rotas e layouts
+  (private)/              Área autenticada (dashboard, list, profile, infoApp)
+  (public)/               Área aberta (landing, login, termos, privacidade, /view/[id])
+  api/auth/[...nextauth]/ Handlers do NextAuth
+
+components/               UI (client e server components)
+  ui/                     Primitivos: Button, Modal, form, useAction, Message...
+  list/ block/ track/     Componentes por domínio
+
+server/                   Toda a lógica de servidor
+  db.ts                   Cliente Neon
+  auth.ts                 Configuração do NextAuth
+  session.ts              Sessão atual (cacheada por request)
+  authz.ts                Regras de autorização por dono
+  schemas/                Validação Zod
+  repositories/           SQL puro, sem regra de negócio
+  services/               Casos de uso + autorização
+  actions/                Server Actions ("use server")
+
+db/migrations/            SQL versionado
+scripts/migrate.mjs       Executor de migrations
+proxy.ts                  Guarda de rotas privadas antes da renderização
 ```
 
----
+Fluxo de uma mutação:
 
-## Pre-requisitos
+```
+Componente (client)
+  → server/actions/*        valida entrada com Zod
+  → server/services/*       exige sessão e confere o dono do recurso
+  → server/repositories/*   executa o SQL
+```
 
-- Node.js 20+
-- npm, yarn, pnpm ou bun
-- Conta no [Neon](https://neon.tech) para o banco de dados PostgreSQL
+Nenhuma camada confia em IDs recebidos do cliente para autorização: o vínculo
+`repertório → usuário` é sempre resolvido no banco antes de qualquer escrita.
 
----
+## Configuração
 
-## Como rodar o projeto
-
-1. **Clone o repositorio**
-
-   ```bash
-   git clone https://github.com/seu-usuario/myplayapp.git
-   cd myplayapp
-   ```
-
-2. **Instale as dependencias**
+1. Instale as dependências:
 
    ```bash
    npm install
    ```
 
-3. **Configure as variaveis de ambiente**
+2. Crie o arquivo de variáveis de ambiente:
 
-   Crie um arquivo `.env.local` na raiz do projeto com as seguintes variaveis:
-
-   ```env
-   # Banco de dados Neon (PostgreSQL)
-   DATABASE_URL="postgresql://user:password@ep-xxxx.us-east-2.aws.neon.tech/neondb?sslmode=require"
-
-   # NextAuth
-   AUTH_SECRET="seu-segredo-aqui"
-   AUTH_URL="http://localhost:3000"
+   ```bash
+   cp .env.example .env.local
    ```
 
-4. **Inicie o servidor de desenvolvimento**
+3. Preencha `DATABASE_URL`, `AUTH_SECRET`, `AUTH_GOOGLE_ID` e `AUTH_GOOGLE_SECRET`.
+   No Google Cloud Console, cadastre `http://localhost:3000/api/auth/callback/google`
+   como URI de redirecionamento.
+
+4. Aplique o schema no banco:
+
+   ```bash
+   npm run db:migrate
+   ```
+
+5. Suba o ambiente de desenvolvimento:
 
    ```bash
    npm run dev
    ```
 
-5. **Acesse no navegador**
+## Scripts
 
-   Abra [http://localhost:3000](http://localhost:3000)
+| Comando            | Descrição                                        |
+| ------------------ | ------------------------------------------------ |
+| `npm run dev`      | Servidor de desenvolvimento                      |
+| `npm run build`    | Build de produção                                |
+| `npm start`        | Servidor de produção                             |
+| `npm run typecheck`| Checagem de tipos sem emitir arquivos            |
+| `npm run lint`     | ESLint                                            |
+| `npm run db:migrate` | Aplica as migrations pendentes em `db/migrations` |
 
----
+## Modelo de acesso
 
-## Scripts disponiveis
+- Rotas privadas (`/dashboard`, `/list`, `/profile`, `/infoApp`) são bloqueadas por `proxy.ts`
+  e novamente por `requireUser()` em cada serviço.
+- Toda operação em repertório, bloco ou música passa por
+  `requireListOwner`, `requireBlockOwner` ou `requireTrackOwner`.
+- Repertórios públicos ficam disponíveis em `/view/[id]` somente para leitura.
+- Usuários só podem excluir a própria conta.
 
-| Comando           | Descricao                            |
-|-------------------|--------------------------------------|
-| `npm run dev`     | Inicia o servidor de desenvolvimento |
-| `npm run build`   | Gera a build de producao             |
-| `npm run start`   | Inicia o servidor em producao        |
-| `npm run lint`    | Executa verificacao de lint          |
+## Banco de dados
 
----
-
-## Paginas incluides
-
-| Rota                     | Descricao                    |
-|--------------------------|------------------------------|
-| `/`                      | Landing Page                 |
-| `/login`                 | Autenticacao de usuario      |
-| `/dashboard`             | Painel do usuario            |
-| `/list/[id]`             | Gerenciamento de lista       |
-| `/view/[id]`             | Visualizacao publica         |
-| `/privacy`               | Politica de Privacidade      |
-| `/appservice`            | Termos de Servico            |
-| `/info`                  | Informacoes / Sobre          |
-
----
-
-## Personalizacao
-
-Este projeto utiliza **Tailwind CSS v4** com tema customizado via CSS nativo. As cores principais podem ser ajustadas no arquivo `app/globals.css` usando variaveis CSS:
-
-```css
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-```
-
-O tema escuro e ativado automaticamente conforme a preferencia do sistema operacional (`prefers-color-scheme: dark`).
-
----
-
-## Deploy na Vercel
-
-A maneira mais facil de fazer deploy e usando a [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
-
-1. Conecte seu repositorio GitHub
-2. Configure as variaveis de ambiente no painel da Vercel
-3. Clique em **Deploy**
-
-Consulte a [documentacao de deploy do Next.js](https://nextjs.org/docs/app/building-your-application/deploying) para mais detalhes.
-
----
-
-<p align="center">Feito com carinho</p>
+As migrations são idempotentes e controladas pela tabela `schema_migrations`.
+Para criar uma nova alteração, adicione um arquivo `db/migrations/0002_*.sql` e rode
+`npm run db:migrate`.

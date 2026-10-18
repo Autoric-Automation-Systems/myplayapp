@@ -1,37 +1,31 @@
-import { fetchDataLists } from "@/query/lists/data";
-import { CurrentUser } from "@/lib/utils";
-import { List } from "@/query/lists/definitions";
-import MsgPage from "@/components/layout/msgPage";
-import CardList from "@/components/list/CardList";
-import Header from "./Header";
-import { MusicalNoteIcon } from "@heroicons/react/24/outline";
+import { MusicalNoteIcon } from '@heroicons/react/24/outline';
+import CardList from '@/components/list/CardList';
+import EmptyState from '@/components/ui/EmptyState';
+import MessageBoundary from '@/components/ui/MessageBoundary';
+import { getDashboardLists } from '@/server/services/repertoire';
+import Header from './Header';
 
 export default async function Dashboard() {
-    const user = await CurrentUser();
-    if (!user) return null;
-    const lists = await fetchDataLists(user.id!);
+  const lists = await getDashboardLists();
 
-    return (
-        <div className="p-3 sm:p-6">
-            <MsgPage />
-            <Header count={lists.length} />
+  return (
+    <div className="p-3 sm:p-6">
+      <MessageBoundary />
+      <Header count={lists.length} />
 
-            {/* Lista de Repertórios */}
-            {lists.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-                    {lists.map(async (list: List) => {
-                        return (
-                            <CardList key={list.id} list={list} />
-                        )
-                    })}
-                </div>
-            ) : (
-                <div className="flex flex-col items-center justify-center py-16 sm:py-20">
-                    <MusicalNoteIcon className="w-12 h-12 text-orange-400" />
-                    <p className="text-base sm:text-lg font-medium">Nenhum repertório ainda</p>
-                    <p className="text-xs sm:text-sm mt-1 sm:mt-2">Clique em Novo Repertório para começar</p>
-                </div>
-            )}
+      {lists.length > 0 ? (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+          {lists.map((list) => (
+            <CardList key={list.id} list={list} />
+          ))}
         </div>
-    );
+      ) : (
+        <EmptyState
+          icon={MusicalNoteIcon}
+          title="Nenhum repertório ainda"
+          description="Clique em Novo Repertório para começar"
+        />
+      )}
+    </div>
+  );
 }

@@ -1,50 +1,114 @@
 'use client';
-import type { Block } from "@/query/blocks/definitions";
-import { EditBlock, DeleteBlock } from "./Buttons";
-import AddTrack from "../track/Buttons";
-import { useState } from "react";
-import { RectangleGroupIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
-export default function Header({ block }: { block: Block }) {
-    const [menuOpen, setMenuOpen] = useState(false);
+import { useState } from 'react';
+import {
+  Bars3Icon,
+  PencilSquareIcon,
+  PlusIcon,
+  RectangleGroupIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
+import { IconButton } from '@/components/ui/Button';
+import DropdownMenu, { type DropdownItem } from '@/components/ui/DropdownMenu';
+import { useAction } from '@/components/ui/useAction';
+import { deleteBlock } from '@/server/actions/blocks';
+import type { Block } from '@/server/types';
+import TrackFormModal from '../track/TrackFormModal';
+import BlockFormModal from './BlockFormModal';
 
-    if (!block) return null;
+type Dialog = 'edit' | 'add-track' | null;
 
-    return (
-        <div className="flex items-center justify-between mb-4 sm:mb-8">
-            <div className="flex items-start gap-2 min-w-0 flex-1">
-                <RectangleGroupIcon className="w-8 h-8 text-orange-400 shrink-0 hidden sm:block" />
-                <h1 className="text-sm sm:text-xl font-bold text-orange-400 truncate">
-                    {block.title}
-                </h1>
-            </div>
-            {/* Desktop buttons */}
-            <div className="hidden sm:flex items-center gap-1 shrink-0">
-                <EditBlock block={block} />
-                <AddTrack block_id={block.id} />
-                <DeleteBlock block={block} />
-            </div>
+export default function Header({
+  block,
+  readOnly = false,
+}: {
+  block: Block;
+  readOnly?: boolean;
+}) {
+  const [dialog, setDialog] = useState<Dialog>(null);
+  const { run, pending, error } = useAction();
 
-            {/* Mobile menu button */}
-            <div className="sm:hidden relative shrink-0">
-                <button
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    className="p-1.5 rounded-lg text-xl hover:bg-white/10 text-white/40 hover:text-white transition"
-                >
-                    <Bars3Icon className="w-8 h-8" />
-                </button>
-                {menuOpen && (
-                    <>
-                        <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
+  function handleDelete() {
+    if (!confirm('Remover este bloco?')) return;
+    run(() => deleteBlock(block.id));
+  }
 
-                        <div className="flex flex-row gap-1 absolute right-10 mt-1 w-auto p-1 rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden bg-[#3a1707] text-white">
-                            <EditBlock block={block} />
-                            <AddTrack block_id={block.id} />
-                            <DeleteBlock block={block} />
-                        </div>
-                    </>
-                )}
-            </div>
+  const menuItems: DropdownItem[] = [
+    {
+      label: 'Editar',
+      icon: <PencilSquareIcon className="h-5 w-5" />,
+      onSelect: () => setDialog('edit'),
+    },
+    {
+      label: 'Nova música',
+      icon: <PlusIcon className="h-5 w-5" />,
+      onSelect: () => setDialog('add-track'),
+    },
+    {
+      label: 'Remover',
+      icon: <TrashIcon className="h-5 w-5" />,
+      onSelect: handleDelete,
+      danger: true,
+    },
+  ];
+
+  return (
+    <>
+      <div className="mb-3 flex items-center justify-between gap-2 sm:mb-4">
+        <div className="flex min-w-0 flex-1 items-start gap-2">
+          <RectangleGroupIcon className="hidden h-7 w-7 shrink-0 text-orange-400 sm:block" />
+          <h2 className="truncate text-sm font-bold text-orange-400 sm:text-xl">{block.title}</h2>
         </div>
-    );
+
+        {!readOnly && (
+          <>
+            <div className="hidden shrink-0 items-center gap-2 sm:flex">
+              <IconButton
+                label="Editar bloco"
+                size="sm"
+                variant="ghost"
+                icon={<PencilSquareIcon className="h-4 w-4" />}
+                onClick={() => setDialog('edit')}
+              />
+              <IconButton
+                label="Nova música"
+                size="sm"
+                icon={<PlusIcon className="h-5 w-5" />}
+                onClick={() => setDialog('add-track')}
+              />
+              <IconButton
+                label="Remover bloco"
+                size="sm"
+                variant="danger"
+                icon={<TrashIcon className="h-4 w-4" />}
+                disabled={pending}
+                onClick={handleDelete}
+              />
+            </div>
+
+            <div className="sm:hidden">
+              <DropdownMenu
+                label="Ações do bloco"
+                trigger={<Bars3Icon className="h-6 w-6 text-white/70" />}
+                items={menuItems}
+              />
+            </div>
+          </>
+        )}
+      </div>
+
+      {error && (
+        <p role="alert" className="mb-2 text-xs text-red-300">
+          {error}
+        </p>
+      )}
+
+      {dialog === 'edit' && (
+        <BlockFormModal listId={block.list_id} block={block} onClose={() => setDialog(null)} />
+      )}
+      {dialog === 'add-track' && (
+        <TrackFormModal blockId={block.id} onClose={() => setDialog(null)} />
+      )}
+    </>
+  );
 }

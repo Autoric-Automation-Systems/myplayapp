@@ -10,37 +10,37 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
     return (
         <div className="min-h-screen bg-background">
-            <header className="border-b border-gray-200 dark:border-gray-800">
+            <header className="border-b border-orange-900/40">
                 <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
                     <Link
                         href="/"
-                        className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                        className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                     >
                         &larr; Voltar ao início
                     </Link>
-                    <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                    <h1 className="mt-4 text-3xl font-bold tracking-tight text-white/90 sm:text-4xl">
                         Política de Privacidade
                     </h1>
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-2 text-sm text-white/60">
                         Última atualização: {new Date().toLocaleDateString("pt-BR")}
                     </p>
                 </div>
             </header>
 
             <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-                <div className="prose prose-gray dark:prose-invert max-w-none space-y-8">
+                <div className="prose max-w-none space-y-8">
                     {/* 1. Introdução */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             1. Introdução
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Esta Política de Privacidade descreve como coletamos, usamos,
                             armazenamos e protegemos as informações pessoais dos usuários que
                             acessam e utilizam nossa plataforma. Ao utilizar nossos serviços,
                             você concorda com as práticas descritas neste documento.
                         </p>
-                        <p className="mt-2 text-muted-foreground leading-relaxed">
+                        <p className="mt-2 text-white/60 leading-relaxed">
                             Estamos comprometidos em proteger a sua privacidade e garantir a
                             segurança dos seus dados pessoais em conformidade com a Lei Geral
                             de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018) e demais
@@ -50,13 +50,13 @@ export default function PrivacyPage() {
 
                     {/* 2. Informações que Coletamos */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             2. Informações que Coletamos
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Podemos coletar as seguintes categorias de informações:
                         </p>
-                        <ul className="mt-3 list-disc pl-6 space-y-2 text-muted-foreground">
+                        <ul className="mt-3 list-disc pl-6 space-y-2 text-white/60">
                             <li>
                                 <strong>Informações de Cadastro:</strong> nome, endereço de
                                 e-mail, e outros dados fornecidos no momento do registro ou
@@ -84,14 +84,14 @@ export default function PrivacyPage() {
 
                     {/* 3. Como Utilizamos suas Informações */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             3. Como Utilizamos suas Informações
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             As informações coletadas são utilizadas para as seguintes
                             finalidades:
                         </p>
-                        <ul className="mt-3 list-disc pl-6 space-y-2 text-muted-foreground">
+                        <ul className="mt-3 list-disc pl-6 space-y-2 text-white/60">
                             <li>
                                 Fornecer, operar e manter nossos serviços e funcionalidades;
                             </li>
@@ -117,15 +117,15 @@ export default function PrivacyPage() {
 
                     {/* 4. Compartilhamento de Dados */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             4. Compartilhamento de Dados
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Não vendemos, alugamos ou compartilhamos suas informações pessoais
                             com terceiros para fins de marketing sem o seu consentimento
                             explícito. Podemos compartilhar dados nas seguintes situações:
                         </p>
-                        <ul className="mt-3 list-disc pl-6 space-y-2 text-muted-foreground">
+                        <ul className="mt-3 list-disc pl-6 space-y-2 text-white/60">
                             <li>
                                 <strong>Prestadores de Serviço:</strong> com empresas que nos
                                 auxiliam na operação da plataforma, como serviços de
@@ -146,16 +146,16 @@ export default function PrivacyPage() {
 
                     {/* 5. Armazenamento e Segurança */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             5. Armazenamento e Segurança
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Adotamos medidas de segurança técnicas e organizacionais
                             adequadas para proteger suas informações pessoais contra acesso
                             não autorizado, alteração, divulgação ou destruição. Entre essas
                             medidas, incluem-se:
                         </p>
-                        <ul className="mt-3 list-disc pl-6 space-y-2 text-muted-foreground">
+                        <ul className="mt-3 list-disc pl-6 space-y-2 text-white/60">
                             <li>Criptografia de dados em trânsito e em repouso;</li>
                             <li>
                                 Controles de acesso rigorosos e autenticação segura;
@@ -169,7 +169,7 @@ export default function PrivacyPage() {
                                 segurança e proteção de dados.
                             </li>
                         </ul>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Seus dados serão armazenados pelo período necessário para cumprir
                             as finalidades descritas nesta política, salvo quando a legislação
                             exigir prazo superior.
@@ -178,14 +178,14 @@ export default function PrivacyPage() {
 
                     {/* 6. Seus Direitos (LGPD) */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             6. Seus Direitos (LGPD)
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Em conformidade com a LGPD, você possui os seguintes direitos em
                             relação aos seus dados pessoais:
                         </p>
-                        <ul className="mt-3 list-disc pl-6 space-y-2 text-muted-foreground">
+                        <ul className="mt-3 list-disc pl-6 space-y-2 text-white/60">
                             <li>
                                 <strong>Confirmação e Acesso:</strong> saber se tratamos seus
                                 dados e obter acesso a eles;
@@ -216,7 +216,7 @@ export default function PrivacyPage() {
                                 consentimento a qualquer momento.
                             </li>
                         </ul>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Para exercer qualquer um desses direitos, entre em contato
                             conosco através dos canais indicados no final desta política.
                             Responderemos à sua solicitação no prazo legal estabelecido.
@@ -225,20 +225,20 @@ export default function PrivacyPage() {
 
                     {/* 7. Cookies */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             7. Cookies
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Utilizamos cookies e tecnologias semelhantes para melhorar a
                             funcionalidade da plataforma e analisar padrões de uso. Cookies
                             são pequenos arquivos de texto armazenados no seu dispositivo.
                             Você pode configurar seu navegador para recusar todos os cookies
                             ou indicar quando um cookie está sendo enviado.
                         </p>
-                        <p className="mt-2 text-muted-foreground leading-relaxed">
+                        <p className="mt-2 text-white/60 leading-relaxed">
                             Os cookies que utilizamos podem ser classificados como:
                         </p>
-                        <ul className="mt-3 list-disc pl-6 space-y-2 text-muted-foreground">
+                        <ul className="mt-3 list-disc pl-6 space-y-2 text-white/60">
                             <li>
                                 <strong>Essenciais:</strong> necessários para o funcionamento
                                 básico da plataforma;
@@ -256,10 +256,10 @@ export default function PrivacyPage() {
 
                     {/* 8. Links para Sites de Terceiros */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             8. Links para Sites de Terceiros
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Nossa plataforma pode conter links para sites ou serviços de
                             terceiros. Não nos responsabilizamos pelas práticas de
                             privacidade desses sites. Recomendamos que você leia as
@@ -269,10 +269,10 @@ export default function PrivacyPage() {
 
                     {/* 9. Alterações nesta Política */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             9. Alterações nesta Política
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Podemos atualizar esta Política de Privacidade periodicamente
                             para refletir mudanças em nossas práticas ou em requisitos legais.
                             Notificaremos os usuários sobre alterações significativas através
@@ -283,24 +283,24 @@ export default function PrivacyPage() {
 
                     {/* 10. Contato */}
                     <section>
-                        <h2 className="text-2xl font-semibold text-foreground">
+                        <h2 className="text-2xl font-semibold text-white/90">
                             10. Contato e Encarregado (DPO)
                         </h2>
-                        <p className="mt-3 text-muted-foreground leading-relaxed">
+                        <p className="mt-3 text-white/60 leading-relaxed">
                             Caso tenha dúvidas, comentários ou solicitações relacionadas a
                             esta Política de Privacidade ou ao tratamento de seus dados
                             pessoais, entre em contato conosco através dos canais abaixo:
                         </p>
-                        <div className="mt-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 p-6">
-                            <dl className="space-y-3 text-muted-foreground">
+                        <div className="mt-4 rounded-lg border border-orange-900/40 bg-black/20 p-6">
+                            <dl className="space-y-3 text-white/60">
                                 <div className="flex flex-col sm:flex-row sm:gap-2">
-                                    <dt className="font-medium text-foreground min-w-28">
+                                    <dt className="font-medium text-white/90 min-w-28">
                                         E-mail:
                                     </dt>
                                     <dd>
                                         <a
                                             href="mailto:contato@exemplo.com.br"
-                                            className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                                            className="text-blue-400 hover:text-blue-300 transition-colors"
                                         >
                                             autoricbr@gmail.com
                                         </a>
@@ -308,7 +308,7 @@ export default function PrivacyPage() {
                                 </div>
                             </dl>
                         </div>
-                        <p className="mt-4 text-muted-foreground leading-relaxed">
+                        <p className="mt-4 text-white/60 leading-relaxed">
                             Esta política foi elaborada em conformidade com a Lei Geral de
                             Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018) e o
                             Regulamento Geral sobre a Proteção de Dados (GDPR), quando
@@ -318,9 +318,9 @@ export default function PrivacyPage() {
                 </div>
             </main>
 
-            <footer className="border-t border-gray-200 dark:border-gray-800">
+            <footer className="border-t border-orange-900/40">
                 <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
-                    <p className="text-center text-sm text-muted-foreground">
+                    <p className="text-center text-sm text-white/60">
                         &copy; {new Date().getFullYear()} - Todos os direitos reservados.
                     </p>
                 </div>

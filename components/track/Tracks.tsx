@@ -1,24 +1,36 @@
 'use client';
-import Header from "./Header";
-import TrackCard from "./Track";
-import { Track } from "@/query/tracks/definitions";
-import { PlayIcon } from "@heroicons/react/24/outline";
 
-export function Tracks({ tracks }: { tracks: Track[] }) {
-    if (!tracks) return null;
-    return (
-        <div className="space-y-0.5 sm:space-y-1.5">
-            <Header />
-            {tracks.length === 0 &&
-                <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-white">
-                    <PlayIcon className="w-12 h-12 text-orange-400" />
-                    <p className="text-base sm:text-lg font-medium">Nenhuma musica ainda</p>
-                    <p className="text-xs sm:text-sm mt-1 sm:mt-2">Clique no Menu e toque em + para criar Novo Musica</p>
-                </div>
-            }
-            {tracks.map((t) => (
-                <TrackCard key={t.id} track={t} />
-            ))}
-        </div>
-    );
+import { PlayIcon } from '@heroicons/react/24/outline';
+import EmptyState from '@/components/ui/EmptyState';
+import type { Track } from '@/server/types';
+import Header from './Header';
+import TrackCard from './Track';
+
+export function Tracks({
+  tracks,
+  readOnly = false,
+}: {
+  tracks: Track[];
+  readOnly?: boolean;
+}) {
+  return (
+    <div className="space-y-0.5 sm:space-y-1.5">
+      <Header />
+      {tracks.length === 0 ? (
+        <EmptyState
+          icon={PlayIcon}
+          title="Nenhuma música ainda"
+          description={
+            readOnly
+              ? 'Este bloco ainda não possui músicas.'
+              : 'Use o menu do bloco e toque em + para adicionar uma música.'
+          }
+        />
+      ) : (
+        tracks.map((track) => (
+          <TrackCard key={track.id} track={track} readOnly={readOnly} />
+        ))
+      )}
+    </div>
+  );
 }
