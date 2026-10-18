@@ -53,3 +53,17 @@ O projeto usa **npm**. Não crie lockfiles de outros gerenciadores.
 - Textos de interface em português (pt-BR).
 - Tailwind CSS v4 com tokens em `app/globals.css` (`bg-surface`, `bg-surface-deep`,
   `border-surface-line`).
+
+## Responsividade
+
+A maioria dos acessos é mobile; comece o layout pelo menor breakpoint.
+
+- Use `dvh` (não `vh`) em alturas que dependem da viewport: barra do navegador móvel
+  muda o `vh`.
+- Alvos de toque com no mínimo 40x40 px (`IconButton` size `sm` já aplica isso no mobile).
+- Painéis e modais viram bottom sheet abaixo de `sm`/`lg` e respeitam
+  `env(safe-area-inset-bottom)`.
+- Evite tabelas com colunas fixas no mobile: empilhe metadados em uma segunda linha
+  (ver `components/track/Track.tsx`) e esconda colunas secundárias com `hidden sm:block`.
+- Bloqueie o scroll do `body` enquanto modal/painel estiver aberto (`useBodyScrollLock`).
+- Verificação rápida de overflow: nenhum elemento deve passar de `document.scrollWidth`.

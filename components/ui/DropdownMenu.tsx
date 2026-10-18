@@ -23,7 +23,7 @@ export default function DropdownMenu({
   const [open, setOpen] = useState(false);
 
   const itemClass = (danger?: boolean) =>
-    `flex w-full items-center gap-2 rounded-lg p-2 text-left transition-colors hover:bg-white/10 ${
+    `flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors hover:bg-white/10 ${
       danger ? 'text-red-300' : ''
     }`;
 
@@ -35,7 +35,7 @@ export default function DropdownMenu({
         aria-label={label}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="rounded-lg p-1 transition hover:bg-white/10"
+        className="rounded-lg p-2 transition hover:bg-white/10"
       >
         {trigger}
       </button>
@@ -45,7 +45,7 @@ export default function DropdownMenu({
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div
             role="menu"
-            className="absolute right-0 z-50 mt-2 flex w-48 flex-col gap-1 rounded-xl border border-white/10 bg-surface p-1 text-white shadow-2xl"
+            className="absolute right-0 z-50 mt-2 flex w-52 flex-col gap-0.5 rounded-xl border border-white/10 bg-surface p-1 text-white shadow-2xl"
           >
             {items.map((item) =>
               item.href ? (

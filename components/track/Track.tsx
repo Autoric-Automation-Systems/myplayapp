@@ -28,21 +28,30 @@ export default function TrackCard({
 
   return (
     <>
-      <div className="flex items-center gap-2 rounded-lg border border-transparent bg-white/[0.03] px-2 py-2 text-white/80 transition-all hover:border-orange-800/40 hover:bg-white/[0.07] sm:px-3 sm:py-1.5">
+      <div className="flex items-center gap-2 rounded-lg border border-transparent bg-white/[0.03] px-2 py-1.5 text-white/80 transition-all hover:border-orange-800/40 hover:bg-white/[0.07] sm:px-3">
         <button
           type="button"
           onClick={() => openPanel(track)}
-          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          className="flex min-w-0 flex-1 items-center gap-2 py-1 text-left sm:py-1.5"
         >
-          <span className="flex-1 truncate pl-2 sm:flex-[2]">{track.title}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate pl-1 text-sm text-white sm:pl-2">{track.title}</span>
+            <span className="mt-0.5 flex items-center gap-1.5 pl-1 text-[11px] text-white/55 sm:hidden">
+              <span className="max-w-[45%] truncate">{track.artist || 'Sem artista'}</span>
+              <span aria-hidden>·</span>
+              <span className="shrink-0">{track.key || '—'}</span>
+              <span aria-hidden>·</span>
+              <span className="shrink-0">{track.bpm} BPM</span>
+            </span>
+          </span>
           <span className="hidden truncate pl-2 sm:block sm:flex-[2]">{track.artist}</span>
-          <span className="w-10 text-center text-[11px] sm:w-12 sm:text-sm">{track.key}</span>
-          <span className="w-12 text-center text-[11px] sm:w-14 sm:text-sm">{track.bpm}</span>
+          <span className="hidden w-12 text-center text-sm sm:block">{track.key}</span>
+          <span className="hidden w-14 text-center text-sm sm:block">{track.bpm}</span>
           <span className="hidden w-14 truncate text-center text-sm md:block">{track.style}</span>
         </button>
 
         {!readOnly && (
-          <div className="flex w-20 shrink-0 items-center justify-end gap-1 pr-2 sm:w-28">
+          <div className="flex w-24 shrink-0 items-center justify-end gap-1 pr-1 sm:w-28 sm:pr-2">
             <IconButton
               label="Editar música"
               size="sm"

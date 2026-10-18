@@ -15,7 +15,7 @@ export function Tracks({
 }) {
   return (
     <div className="space-y-0.5 sm:space-y-1.5">
-      <Header />
+      <Header readOnly={readOnly} />
       {tracks.length === 0 ? (
         <EmptyState
           icon={PlayIcon}

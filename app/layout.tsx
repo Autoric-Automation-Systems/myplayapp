@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Footer from '@/components/layout/Footer';
@@ -23,6 +23,13 @@ export const metadata: Metadata = {
   description: infoAPP.description,
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#170903',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,8 +40,8 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
-        <main className="flex-1">{children}</main>
+      <body className="flex min-h-dvh flex-col">
+        <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
       </body>
     </html>

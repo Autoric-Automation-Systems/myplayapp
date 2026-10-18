@@ -39,7 +39,7 @@ export function Lyrics({ lyrics }: { lyrics: string }) {
             type="button"
             onClick={() => setFont((value) => Math.max(value - 2, 10))}
             disabled={font <= 10}
-            className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-medium text-white/70 transition hover:bg-white/20 hover:text-white disabled:opacity-40"
+            className="h-9 min-w-11 rounded-lg bg-white/10 px-3 text-sm font-medium text-white/70 transition hover:bg-white/20 hover:text-white disabled:opacity-40"
           >
             A-
           </button>
@@ -48,7 +48,7 @@ export function Lyrics({ lyrics }: { lyrics: string }) {
             type="button"
             onClick={() => setFont((value) => Math.min(value + 2, 32))}
             disabled={font >= 32}
-            className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-medium text-white/70 transition hover:bg-white/20 hover:text-white disabled:opacity-40"
+            className="h-9 min-w-11 rounded-lg bg-white/10 px-3 text-sm font-medium text-white/70 transition hover:bg-white/20 hover:text-white disabled:opacity-40"
           >
             A+
           </button>

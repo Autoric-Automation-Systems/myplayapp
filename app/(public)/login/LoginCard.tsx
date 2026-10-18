@@ -13,9 +13,9 @@ export default function LoginCard() {
     >
       <button
         type="submit"
-        className="inline-flex items-center justify-center gap-3 rounded-lg bg-gray-100 px-7 py-3 text-sm font-normal text-gray-700 transition-colors hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10"
+        className="inline-flex h-12 w-full items-center justify-center gap-3 rounded-xl bg-white px-6 text-sm font-semibold text-gray-800 shadow-lg transition-colors hover:bg-gray-100 active:scale-[0.99]"
       >
-        <FcGoogle className="h-10 w-10 fill-current" />
+        <FcGoogle className="h-6 w-6" />
         Entrar com Google
       </button>
     </form>

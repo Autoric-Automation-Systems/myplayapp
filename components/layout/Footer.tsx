@@ -3,36 +3,37 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="mt-auto flex w-full flex-wrap items-center gap-3 border-t border-orange-900/30 bg-surface p-2 sm:flex-nowrap">
-      <Link href="/dashboard" className="flex items-center">
-        <Image
-          src="/logo.png"
-          alt="MyPlayApp"
-          width={120}
-          height={120}
-          className="h-auto w-auto"
-          loading="eager"
-        />
-      </Link>
-
-      <span className="ml-auto text-xs text-orange-200/50 sm:text-sm">
-        &copy; {new Date().getFullYear()} MyPlayApp. Todos os direitos reservados.
-      </span>
-
-      <nav className="mr-2 flex items-center gap-4 sm:gap-6">
-        <Link
-          href="/appservice"
-          className="text-xs text-orange-200/70 transition-colors hover:text-orange-200 sm:text-sm"
-        >
-          Termos de Serviço
+    <footer className="mt-auto border-t border-orange-900/30 bg-surface">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-2 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center sm:flex-row sm:gap-4 sm:px-4 sm:py-2 sm:text-left">
+        <Link href="/" className="flex shrink-0 items-center" aria-label="MyPlayApp">
+          <Image
+            src="/logo.png"
+            alt="MyPlayApp"
+            width={120}
+            height={120}
+            className="h-8 w-auto sm:h-10"
+          />
         </Link>
-        <Link
-          href="/privacy"
-          className="text-xs text-orange-200/70 transition-colors hover:text-orange-200 sm:text-sm"
-        >
-          Política de Privacidade
-        </Link>
-      </nav>
+
+        <span className="text-[11px] text-orange-200/60 sm:ml-auto sm:text-xs">
+          &copy; {new Date().getFullYear()} MyPlayApp
+        </span>
+
+        <nav className="flex items-center gap-4 sm:gap-5">
+          <Link
+            href="/appservice"
+            className="text-[11px] text-orange-200/70 transition-colors hover:text-orange-200 sm:text-xs"
+          >
+            Termos de Serviço
+          </Link>
+          <Link
+            href="/privacy"
+            className="text-[11px] text-orange-200/70 transition-colors hover:text-orange-200 sm:text-xs"
+          >
+            Política de Privacidade
+          </Link>
+        </nav>
+      </div>
     </footer>
   );
 }

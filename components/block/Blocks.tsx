@@ -34,7 +34,7 @@ export default function Blocks({
           )}
         </div>
 
-        <aside className="sticky top-0 hidden h-screen w-96 overflow-y-auto lg:block">
+        <aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] w-96 shrink-0 overflow-y-auto pt-4 pr-1 lg:block">
           <Panel />
         </aside>
       </div>
