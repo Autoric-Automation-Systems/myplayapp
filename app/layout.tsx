@@ -16,11 +16,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(infoAPP.site),
+  applicationName: infoAPP.name,
   title: {
-    default: infoAPP.name,
+    default: `${infoAPP.name} — repertórios prontos para o palco`,
     template: `%s · ${infoAPP.name}`,
   },
-  description: infoAPP.description,
+  description: infoAPP.tagline,
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: infoAPP.name,
+    url: '/',
+    title: `${infoAPP.name} — repertórios prontos para o palco`,
+    description: infoAPP.tagline,
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 };
 
 export const viewport: Viewport = {

@@ -9,6 +9,9 @@ export default function InfoCard() {
           Informações Sobre o App
         </h2>
         <p className="mt-1 text-sm text-white/50">{infoAPP.name}</p>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/70">
+          {infoAPP.tagline}
+        </p>
       </div>
 
       <div className="space-y-3">

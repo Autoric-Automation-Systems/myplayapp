@@ -49,6 +49,16 @@ O projeto usa **npm**. Não crie lockfiles de outros gerenciadores.
   do dono, nunca o e-mail.
 - Depois de qualquer escrita, revalide o path afetado com `revalidatePath`.
 
+## Compartilhamento de links
+
+- O texto que aparece no preview (WhatsApp, Telegram, redes) vem de `app/layout.tsx`:
+  `infoAPP.tagline` alimenta `description` e `openGraph`; mantenha sem jargão técnico.
+  `infoAPP.description` é a ficha técnica e fica só na tela Sobre o App.
+- `app/opengraph-image.png` (1200x630) é a imagem de preview de todas as rotas.
+- `openGraph` definido numa página substitui o do layout inteiro. Para não perder
+  imagem, site e locale, espalhe o do pai:
+  `const { openGraph } = await parent; openGraph: { ...openGraph, ...override }`.
+
 ## Doações
 
 - `lib/pix.ts` monta o BR Code (TLV + CRC16) a partir da chave Pix; não invente payload
