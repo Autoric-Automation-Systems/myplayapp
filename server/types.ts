@@ -38,6 +38,7 @@ export type Track = {
   style: string;
   artist: string;
   lyrics: string;
+  position: number;
   created_at: Timestamp;
 };
 
@@ -51,6 +52,11 @@ export type ListDetail = {
 };
 
 export type ListOwner = Pick<User, 'id' | 'name' | 'picture'>;
+
+export type TrackWithList = {
+  track: Track;
+  list: List;
+};
 
 export type PublicListDetail = ListDetail & {
   owner: ListOwner | null;

@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import type { DefaultSession } from 'next-auth';
 import Google from 'next-auth/providers/google';
+import { env } from '@/lib/env';
+import { logError } from '@/lib/logger';
 import { findUserByEmail, upsertGoogleUser } from '@/server/repositories/users';
 
 declare module 'next-auth' {
@@ -16,8 +18,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   providers: [
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      clientId: env().AUTH_GOOGLE_ID,
+      clientSecret: env().AUTH_GOOGLE_SECRET,
     }),
   ],
   session: {
@@ -53,7 +55,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (dbUser) token.id = dbUser.id;
         } catch (error) {
           // Não derruba o login inteiro por uma falha momentânea de banco.
-          console.error('Falha ao resolver o usuário da sessão:', error);
+          logError('auth.jwt.resolve_user_failed', error, { email: token.email });
         }
       }
 
@@ -75,5 +77,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   // AUTH_SECRET é o nome do v5; NEXTAUTH_SECRET mantém compatibilidade com
   // deploys que já existiam antes do refactor.
-  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  secret: env().AUTH_SECRET,
 });

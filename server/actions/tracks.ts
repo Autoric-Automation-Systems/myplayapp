@@ -61,3 +61,21 @@ export async function deleteTrack(id: unknown): Promise<ActionResult> {
   revalidatePath(`/list/${listId}`);
   return withMessage(`/list/${listId}`, 'Sucesso', 'A música foi removida com sucesso!');
 }
+
+export async function moveTrack(id: unknown, direction: unknown): Promise<ActionResult> {
+  const trackId = parseId(id);
+  if (!trackId) return { ok: false, error: 'Identificador inválido.' };
+  if (direction !== 'up' && direction !== 'down') {
+    return { ok: false, error: 'Direção inválida.' };
+  }
+
+  let listId: string;
+  try {
+    listId = await repertoire.moveTrack(trackId, direction);
+  } catch (error) {
+    return actionError(error);
+  }
+
+  revalidatePath(`/list/${listId}`);
+  return { ok: true };
+}

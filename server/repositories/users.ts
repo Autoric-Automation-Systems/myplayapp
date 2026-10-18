@@ -6,7 +6,6 @@ export async function findUserByEmail(email: string): Promise<User | null> {
     SELECT id, name, email, picture, created_at
     FROM public.users
     WHERE lower(email) = lower(${email})
-    ORDER BY created_at ASC
     LIMIT 1
   `;
   return (rows[0] as User | undefined) ?? null;
@@ -30,34 +29,21 @@ export async function findUserById(id: string): Promise<User | null> {
   return (rows[0] as User | undefined) ?? null;
 }
 
-// A base de produção foi criada antes da migration e não tem índice único em
-// `email`, então ON CONFLICT (email) falha. UPDATE + INSERT funciona nos dois casos.
+// Depende do índice único `users_email_lower_key` (migration 0003). Antes dele
+// existia um UPDATE + INSERT manual para conviver com bases sem índice único.
 export async function upsertGoogleUser(input: {
   name: string;
   email: string;
   picture: string | null;
 }): Promise<User> {
-  const updated = await sql`
-    UPDATE public.users
-    SET name = ${input.name}, picture = ${input.picture}
-    WHERE lower(email) = lower(${input.email})
+  const rows = await sql`
+    INSERT INTO public.users (name, email, picture)
+    VALUES (${input.name}, ${input.email}, ${input.picture})
+    ON CONFLICT ((lower(email)))
+    DO UPDATE SET name = EXCLUDED.name, picture = EXCLUDED.picture
     RETURNING id, name, email, picture, created_at
   `;
-  if (updated[0]) return updated[0] as User;
-
-  try {
-    const inserted = await sql`
-      INSERT INTO public.users (name, email, picture)
-      VALUES (${input.name}, ${input.email}, ${input.picture})
-      RETURNING id, name, email, picture, created_at
-    `;
-    return inserted[0] as User;
-  } catch (error) {
-    // Dois logins simultâneos: a outra requisição inseriu primeiro.
-    const existing = await findUserByEmail(input.email);
-    if (existing) return existing;
-    throw error;
-  }
+  return rows[0] as User;
 }
 
 export async function deleteUserById(id: string): Promise<void> {

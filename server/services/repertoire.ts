@@ -18,11 +18,13 @@ import {
   blocksWithTracks,
   deleteBlockById,
   insertBlock,
+  moveBlockWithinList,
   updateBlockById,
 } from '@/server/repositories/blocks';
 import {
   deleteTrackById,
   insertTrack,
+  moveTrackWithinBlock,
   updateTrackById,
 } from '@/server/repositories/tracks';
 import { findPublicUserById } from '@/server/repositories/users';
@@ -94,6 +96,12 @@ export async function removeBlock(id: string): Promise<string> {
   return list.id;
 }
 
+export async function moveBlock(id: string, direction: 'up' | 'down'): Promise<string> {
+  const { block, list } = await requireBlockOwner(id);
+  await moveBlockWithinList(list.id, block.id, direction);
+  return list.id;
+}
+
 export async function createTrack(blockId: string, input: TrackInput): Promise<string> {
   const { block, list } = await requireBlockOwner(blockId);
   await insertTrack(block.id, input);
@@ -109,5 +117,11 @@ export async function updateTrack(id: string, input: TrackInput): Promise<string
 export async function removeTrack(id: string): Promise<string> {
   const { track, list } = await requireTrackOwner(id);
   await deleteTrackById(track.id);
+  return list.id;
+}
+
+export async function moveTrack(id: string, direction: 'up' | 'down'): Promise<string> {
+  const { track, list } = await requireTrackOwner(id);
+  await moveTrackWithinBlock(track.block_id, track.id, direction);
   return list.id;
 }

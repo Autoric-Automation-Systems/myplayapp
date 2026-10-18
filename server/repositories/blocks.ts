@@ -1,3 +1,4 @@
+import { moveInSequence } from '@/lib/reorder';
 import { sql } from '@/server/db';
 import type { Block, BlockWithTracks, Timestamp } from '@/server/types';
 
@@ -14,6 +15,7 @@ type BlockWithTrackRows = {
   style: string | null;
   artist: string | null;
   lyrics: string | null;
+  track_position: number | null;
   track_created_at: Timestamp | null;
 };
 
@@ -49,6 +51,31 @@ export async function deleteBlockById(id: string): Promise<void> {
   await sql`DELETE FROM public.blocks WHERE id = ${id}`;
 }
 
+export async function moveBlockWithinList(
+  listId: string,
+  blockId: string,
+  direction: 'up' | 'down'
+): Promise<boolean> {
+  const rows = await sql`
+    SELECT id
+    FROM public.blocks
+    WHERE list_id = ${listId}
+    ORDER BY position ASC, created_at ASC, id ASC
+  `;
+
+  const ids = rows.map((row) => (row as { id: string }).id);
+  const reordered = moveInSequence(ids, blockId, direction);
+  if (!reordered) return false;
+
+  await sql.transaction((tx) =>
+    reordered.map(
+      (id, position) => tx`UPDATE public.blocks SET position = ${position} WHERE id = ${id}`,
+    ),
+  );
+
+  return true;
+}
+
 export async function blocksWithTracks(listId: string): Promise<BlockWithTracks[]> {
   const rows = (await sql`
     SELECT
@@ -64,11 +91,12 @@ export async function blocksWithTracks(listId: string): Promise<BlockWithTracks[
       t.style,
       t.artist,
       t.lyrics,
+      t.position       AS track_position,
       t.created_at     AS track_created_at
     FROM public.blocks b
     LEFT JOIN public.tracks t ON t.block_id = b.id
     WHERE b.list_id = ${listId}
-    ORDER BY b.position ASC, b.created_at ASC, t.created_at ASC
+    ORDER BY b.position ASC, b.created_at ASC, t.position ASC, t.created_at ASC
   `) as BlockWithTrackRows[];
 
   const blocks = new Map<string, BlockWithTracks>();
@@ -97,6 +125,7 @@ export async function blocksWithTracks(listId: string): Promise<BlockWithTracks[
         style: row.style ?? '',
         artist: row.artist ?? '',
         lyrics: row.lyrics ?? '',
+        position: row.track_position ?? 0,
         created_at: row.track_created_at ?? row.block_created_at,
       });
     }

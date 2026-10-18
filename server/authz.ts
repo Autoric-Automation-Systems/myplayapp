@@ -1,8 +1,8 @@
 import { requireUser } from '@/server/session';
 import { ForbiddenError, NotFoundError } from '@/server/errors';
 import { findBlockById } from '@/server/repositories/blocks';
-import { findListById, findListIdByTrackId } from '@/server/repositories/lists';
-import { findTrackById } from '@/server/repositories/tracks';
+import { findListById } from '@/server/repositories/lists';
+import { findTrackWithList } from '@/server/repositories/tracks';
 import type { Block, List, Track } from '@/server/types';
 import { parseId } from '@/server/schemas/common';
 
@@ -37,15 +37,17 @@ export async function requireBlockOwner(
 export async function requireTrackOwner(
   trackId: string
 ): Promise<{ track: Track; list: List }> {
+  const user = await requireUser();
   const id = parseId(trackId);
   if (!id) throw new NotFoundError('Música não encontrada.');
 
-  const track = await findTrackById(id);
-  if (!track) throw new NotFoundError('Música não encontrada.');
+  // Um JOIN resolve música -> bloco -> repertório de uma vez.
+  const found = await findTrackWithList(id);
+  if (!found) throw new NotFoundError('Música não encontrada.');
 
-  const listId = await findListIdByTrackId(track.id);
-  if (!listId) throw new NotFoundError('Música não encontrada.');
+  if (found.list.user_id !== user.id) {
+    throw new ForbiddenError('Você não tem acesso a este repertório.');
+  }
 
-  const list = await requireListOwner(listId);
-  return { track, list };
+  return found;
 }

@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { neon } from '@neondatabase/serverless';
+import { shouldRunOutsideTransaction, splitSqlStatements } from './sql-statements.mjs';
 
 async function loadEnv() {
   if (process.env.DATABASE_URL) return;
@@ -50,18 +51,25 @@ for (const file of files) {
   }
 
   const content = await readFile(path.join(migrationsDir, file), 'utf8');
-  const statements = content
-    .split(';')
-    .map((statement) => statement.trim())
-    .filter((statement) => statement && !statement.split('\n').every((line) => line.trim().startsWith('--')));
+  const statements = splitSqlStatements(content);
+  const recordMigration = (tx) =>
+    tx`INSERT INTO public.schema_migrations (name) VALUES (${file})`;
 
   console.log(`+ ${file} (${statements.length} comandos)`);
 
-  for (const statement of statements) {
-    await sql.query(statement);
+  if (shouldRunOutsideTransaction(content)) {
+    // CREATE INDEX CONCURRENTLY e VACUUM não podem rodar dentro de transação.
+    for (const statement of statements) {
+      await sql.query(statement);
+    }
+    await recordMigration(sql);
+  } else {
+    // Comandos + registro commitam juntos: ou a migration inteira entra, ou nada entra.
+    await sql.transaction((tx) => [
+      ...statements.map((statement) => tx.query(statement)),
+      recordMigration(tx),
+    ]);
   }
-
-  await sql`INSERT INTO public.schema_migrations (name) VALUES (${file})`;
 }
 
 console.log('Migrations concluídas.');

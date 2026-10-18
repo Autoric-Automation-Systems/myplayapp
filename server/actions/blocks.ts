@@ -60,3 +60,21 @@ export async function deleteBlock(id: unknown): Promise<ActionResult> {
   revalidatePath(`/list/${listId}`);
   return withMessage(`/list/${listId}`, 'Sucesso', 'O bloco foi removido com sucesso!');
 }
+
+export async function moveBlock(id: unknown, direction: unknown): Promise<ActionResult> {
+  const blockId = parseId(id);
+  if (!blockId) return { ok: false, error: 'Identificador inválido.' };
+  if (direction !== 'up' && direction !== 'down') {
+    return { ok: false, error: 'Direção inválida.' };
+  }
+
+  let listId: string;
+  try {
+    listId = await repertoire.moveBlock(blockId, direction);
+  } catch (error) {
+    return actionError(error);
+  }
+
+  revalidatePath(`/list/${listId}`);
+  return { ok: true };
+}

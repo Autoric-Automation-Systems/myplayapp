@@ -12,7 +12,7 @@ function tlv(id: string, value: string): string {
   return `${id}${String(value.length).padStart(2, '0')}${value}`;
 }
 
-function crc16(payload: string): string {
+export function crc16(payload: string): string {
   let crc = 0xffff;
 
   for (const byte of new TextEncoder().encode(payload)) {

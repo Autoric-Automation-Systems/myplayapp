@@ -1,5 +1,6 @@
 import { z, type ZodError } from 'zod';
 import { unstable_rethrow } from 'next/navigation';
+import { logError } from '@/lib/logger';
 import { AppError } from '@/server/errors';
 
 export type ActionResult =
@@ -31,7 +32,7 @@ export function actionError(error: unknown): ActionResult {
     return { ok: false, error: error.message };
   }
 
-  console.error('Unexpected action error:', error);
+  logError('action.unexpected_error', error);
   return { ok: false, error: 'Não foi possível concluir a ação. Tente novamente.' };
 }
 
