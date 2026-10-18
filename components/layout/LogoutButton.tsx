@@ -40,7 +40,7 @@ export default function LogoutButton({ user }: { user: User }) {
         {
           label: 'Home',
           icon: <HomeIcon className="h-6 w-6" />,
-          href: '/',
+          href: '/dashboard',
         },
         {
           label: 'Meu Perfil',
